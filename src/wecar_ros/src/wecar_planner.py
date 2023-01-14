@@ -67,24 +67,18 @@ class wecar_planner():
         lattice_current_lane = 1
         obstacle_flag = False
 
-
-
-
         while not rospy.is_shutdown():
             # print(self.is_status , self.is_obj)
-                        
+            
+            # Path 교체
+            if self.isTimetoChangePath():
+                self.path_name = "second"
+                self.global_path=path_reader.read_txt(self.path_name+".txt")
+
             if self.is_status==True  and self.is_obj==True: ## WeBot 상태, 장애물 상태 점검
 
                 ################################ SECOND MAP CHANGE ################################
-                second_map_x = 0.527515172958
-                second_map_y = -5.40659809113
-                dx = self.status_msg.position.x - second_map_x
-                dy = self.status_msg.position.y - second_map_y
-                map_dis = sqrt(dx ** 2 + dy ** 2)
-
-                if (map_dis < 0.3):
-                    self.path_name = "second"
-                    self.global_path=path_reader.read_txt(self.path_name+".txt")
+                
                 ################################ SECOND MAP CHANGE ################################
 
                 ## global_path와 WeBot status_msg를 이용해 현재 waypoint와 local_path를 생성
@@ -232,7 +226,18 @@ class wecar_planner():
 
         # self.is_obj == 필드 위에 객체가 있는지 판단하는 boolean형 변수. self.object_info 리스트에 정보가 있을 때만 True여야 하는데 여기서는 그냥 True를 디폴트값으로 넣어버림. 수정 필요 
         self.is_obj=True
-    
+
+    def isTimetoChangePath(self):
+        second_map_x = 0.527515172958
+        second_map_y = -5.40659809113
+        dx = self.status_msg.position.x - second_map_x
+        dy = self.status_msg.position.y - second_map_y
+        map_dis = sqrt(dx ** 2 + dy ** 2)
+
+        if (map_dis < 0.3):
+            return True
+            
+
 if __name__ == '__main__':
     try:
         kcity_pathtracking=wecar_planner()
