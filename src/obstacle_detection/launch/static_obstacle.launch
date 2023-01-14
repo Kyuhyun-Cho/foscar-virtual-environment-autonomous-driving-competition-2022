@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<node pkg="obstacle_detection" type="static_obstacle" name="static_obstacle"  output="screen"/>
+</launch>

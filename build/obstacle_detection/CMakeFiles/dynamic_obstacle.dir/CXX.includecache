@@ -6,22 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h
-string
--
-vector
--
-memory
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
-
 /home/foscar/VEAC_2023/devel/include/obstacle_detection/dy_hyper_parameterConfig.h
 dynamic_reconfigure/config_tools.h
 -

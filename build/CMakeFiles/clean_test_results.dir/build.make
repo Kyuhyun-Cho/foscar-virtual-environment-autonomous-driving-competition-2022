@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/foscar/VEAC_2023/build
 include CMakeFiles/clean_test_results.dir/progress.make
 
 CMakeFiles/clean_test_results:
-	/usr/bin/python2 /opt/ros/melodic/share/catkin/cmake/test/remove_test_results.py /home/foscar/VEAC_2023/build/test_results
+	/home/foscar/anaconda3/bin/python2 /opt/ros/melodic/share/catkin/cmake/test/remove_test_results.py /home/foscar/VEAC_2023/build/test_results
 
 clean_test_results: CMakeFiles/clean_test_results
 clean_test_results: CMakeFiles/clean_test_results.dir/build.make

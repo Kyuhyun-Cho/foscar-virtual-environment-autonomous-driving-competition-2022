@@ -1,8 +1,0 @@
-prefix=/home/foscar/VEAC_2023/devel
-
-Name: velodyne_pcl
-Description: Description of velodyne_pcl
-Version: 1.6.1
-Cflags: -I/home/foscar/VEAC_2023/src/velodyne/velodyne_pcl/include
-Libs: -L${prefix}/lib 
-Requires: pcl_ros

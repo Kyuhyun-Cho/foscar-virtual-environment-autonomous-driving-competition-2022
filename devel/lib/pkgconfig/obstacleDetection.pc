@@ -1,8 +1,0 @@
-prefix=/home/foscar/VEAC_2023/devel
-
-Name: obstacleDetection
-Description: Description of obstacleDetection
-Version: 0.0.0
-Cflags: -I/home/foscar/VEAC_2023/devel/include -I/home/foscar/VEAC_2023/src/obstacleDetection/include
-Libs: -L${prefix}/lib -lobstacleDetection
-Requires: pcl_conversions pcl_ros roscpp sensor_msgs std_msgs geometry_msgs nav_msgs message_runtime laser_geometry dynamic_reconfigure

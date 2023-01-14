@@ -135,15 +135,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/foscar/VEAC_2023/build/vesc_msgs/cmake_install.cmake")
   include("/home/foscar/VEAC_2023/build/pure_pursuit/cmake_install.cmake")
   include("/home/foscar/VEAC_2023/build/scalecar/cmake_install.cmake")
-<<<<<<< HEAD
   include("/home/foscar/VEAC_2023/build/obstacle_detection/cmake_install.cmake")
-  include("/home/foscar/VEAC_2023/build/velodyne/velodyne_driver/cmake_install.cmake")
-  include("/home/foscar/VEAC_2023/build/velodyne/velodyne_laserscan/cmake_install.cmake")
-  include("/home/foscar/VEAC_2023/build/velodyne/velodyne_pcl/cmake_install.cmake")
-  include("/home/foscar/VEAC_2023/build/velodyne/velodyne_pointcloud/cmake_install.cmake")
-=======
-  include("/home/foscar/VEAC_2023/build/obstacleDetection/cmake_install.cmake")
->>>>>>> a5fd62cf996922944280b76427bb7a22f7c87623
   include("/home/foscar/VEAC_2023/build/wecar_ros/cmake_install.cmake")
 
 endif()

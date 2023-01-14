@@ -87,7 +87,7 @@ class wecar_planner():
 
                 ########################  lattice  ########################
                 vehicle_status=[self.status_msg.position.x, self.status_msg.position.y, (self.status_msg.heading)/180*pi, self.status_msg.velocity.x/3.6]
-                lattice_path, selected_lane, _ = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
+                lattice_path, selected_lane = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
                 lattice_current_lane = selected_lane
 
                 # 최소 가중치를 갖는 lattice path 선택하기 
@@ -120,6 +120,7 @@ class wecar_planner():
                 # 신호등 구간에 있고 초록불이 아닐경우 속도 0을 보냄
                 if self.is_traffic_road == True and self.traffic_signal == False :
                     self.motor_msg = 0
+
 
                 self.servo_pub.publish(self.servo_msg)
                 self.motor_pub.publish(self.motor_msg)
@@ -166,7 +167,7 @@ class wecar_planner():
         self.is_status=True
         # y -1.8 ~ -2.4
         # x 6.8 ~ 7.3
-        if 6.8 <= data.position.x <= 7.3 and -2.4 <= data.position.y <= -1.8 :
+        if 6.8 <= data.position.x <= 7.3 and -2.4 <= data.position.y <= 1.8 :
             self.is_traffic_road = True
         else :
             self.is_traffic_road = False

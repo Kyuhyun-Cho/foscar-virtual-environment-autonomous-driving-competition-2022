@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+	<node pkg="obstacle_detection" type="rotary_obstacle" name="rotary_obstacle"  output="screen"/>
+</launch>

@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/home/foscar/anaconda3/bin/python2
 # -*- coding: utf-8 -*-
 
 # Software License Agreement (BSD License)
