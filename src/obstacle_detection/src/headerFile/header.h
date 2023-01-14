@@ -56,9 +56,13 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <obstacleDetection/ve_hyper_parameterConfig.h>
 
-#include "obstacleDetection/Boundingbox.h"
+#include <obstacle_detection/hyper_parameterConfig.h>
+#include <obstacle_detection/dy_hyper_parameterConfig.h>
+#include <obstacle_detection/st_hyper_parameterConfig.h>
+#include <obstacle_detection/rt_hyper_parameterConfig.h>
+
+#include "obstacle_detection/Boundingbox.h"
 
 
 #endif // HEADER_H

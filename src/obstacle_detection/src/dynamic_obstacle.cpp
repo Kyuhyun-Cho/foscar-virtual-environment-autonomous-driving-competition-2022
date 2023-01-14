@@ -1,5 +1,5 @@
-#include "header.h"
-#include "dbscan.h"
+#include "headerFile/header.h"
+#include "headerFile/dbscan.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ ros::Publisher obsLongFlagPub;
 laser_geometry::LaserProjection projector_;
 // tf::TransformListener listener_;
 
-void dynamicParamCallback(obstacleDetection::ve_hyper_parameterConfig &config, int32_t level) {
+void dynamicParamCallback(obstacle_detection::dy_hyper_parameterConfig &config, int32_t level) {
   minPoints = config.minPoints;
   epsilon = config.epsilon;
   minClusterSize = config.minClusterSize;
@@ -70,7 +70,7 @@ void cloud_cb(const sensor_msgs::PointCloud2 inputcloud) {
   visualization_msgs::Marker Box;
 
   //Boundingbox & Waypoitn Position Messsage 
-  obstacleDetection::Boundingbox BoxPosition;
+  obstacle_detection::Boundingbox BoxPosition;
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xf(new pcl::PointCloud<pcl::PointXYZ>);
   pcl::PassThrough<pcl::PointXYZ> xfilter;
@@ -216,10 +216,12 @@ void cloud_cb(const sensor_msgs::PointCloud2 inputcloud) {
   // Print obstacle vector informations 
   if (obstacle_vec.size() > 0) {
     for (int i = 0; i < obstacle_vec.size(); i++) {
-      cout << i+1 << ": " << obstacle_vec[i][0] << " / " << obstacle_vec[i][1] << " / " << obstacle_vec[i][2] << " / " << obstacle_vec[i][3] << '\n';
+      cout << '[' << i+1 << "] " << "x: " << obstacle_vec[i][0] << "\ty: " << obstacle_vec[i][1] << "\tz: " << obstacle_vec[i][2] << "\tdis: " << obstacle_vec[i][3] << '\n';
     }
     cout << '\n' << '\n' << '\n';
   }
+
+
 
   //Convert To ROS data type 
   pcl::PCLPointCloud2 cloud_p;
@@ -262,21 +264,21 @@ void laser2cloudmsg (const sensor_msgs::LaserScan::ConstPtr& scan_in) {
 }
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "clustering");
+  ros::init(argc, argv, "dynamic_obstacle");
   ros::NodeHandle nh;
 
-  dynamic_reconfigure::Server<obstacleDetection::ve_hyper_parameterConfig> server;
-  dynamic_reconfigure::Server<obstacleDetection::ve_hyper_parameterConfig>::CallbackType f;
+  dynamic_reconfigure::Server<obstacle_detection::dy_hyper_parameterConfig> server;
+  dynamic_reconfigure::Server<obstacle_detection::dy_hyper_parameterConfig>::CallbackType f;
 
   f = boost::bind(&dynamicParamCallback, _1, _2);
   server.setCallback(f);
 
   ros::Subscriber rawDataSub = nh.subscribe("/lidar2D", 1, laser2cloudmsg);  // velodyne_points 토픽 구독. velodyne_points = 라이다 raw data
 
-  obsClusterPub = nh.advertise<sensor_msgs::PointCloud2>("/obs_cluster", 0.001);                  
-  obsMarkerPub = nh.advertise<visualization_msgs::MarkerArray>("/obs_marker", 0.001);  
-  obsPosePub = nh.advertise<obstacleDetection::Boundingbox>("/obs_position", 0.001);    
-  obsCropboxPub = nh.advertise<sensor_msgs::PointCloud2>("/obs_cropbox", 0.001); 
+  obsClusterPub = nh.advertise<sensor_msgs::PointCloud2>("/dy_obs_cluster", 0.001);                  
+  obsMarkerPub = nh.advertise<visualization_msgs::MarkerArray>("/dy_obs_marker", 0.001);  
+  obsPosePub = nh.advertise<obstacle_detection::Boundingbox>("/dy_obs_position", 0.001);    
+  obsCropboxPub = nh.advertise<sensor_msgs::PointCloud2>("/dy_obs_cropbox", 0.001); 
 
   ros::spin();
 

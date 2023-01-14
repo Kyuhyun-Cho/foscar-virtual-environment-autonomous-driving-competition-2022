@@ -3,7 +3,7 @@
 
 obstacleDetection/CMakeFiles/clustering.dir/src/clustering.cpp.o
  /home/foscar/VEAC_2023/devel/include/obstacleDetection/Boundingbox.h
- /home/foscar/VEAC_2023/devel/include/obstacleDetection/ve_hyper_parameterConfig.h
+ /home/foscar/VEAC_2023/devel/include/obstacleDetection/hyper_parameterConfig.h
  /home/foscar/VEAC_2023/src/obstacleDetection/src/clustering.cpp
  /home/foscar/VEAC_2023/src/obstacleDetection/src/dbscan.h
  /home/foscar/VEAC_2023/src/obstacleDetection/src/header.h

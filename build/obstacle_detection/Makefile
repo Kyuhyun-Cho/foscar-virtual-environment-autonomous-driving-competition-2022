@@ -168,6 +168,36 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+obstacle_detection/CMakeFiles/rotary_obstacle.dir/rule:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/rotary_obstacle.dir/rule
+.PHONY : obstacle_detection/CMakeFiles/rotary_obstacle.dir/rule
+
+# Convenience name for target.
+rotary_obstacle: obstacle_detection/CMakeFiles/rotary_obstacle.dir/rule
+
+.PHONY : rotary_obstacle
+
+# fast build rule for target.
+rotary_obstacle/fast:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/rotary_obstacle.dir/build.make obstacle_detection/CMakeFiles/rotary_obstacle.dir/build
+.PHONY : rotary_obstacle/fast
+
+# Convenience name for target.
+obstacle_detection/CMakeFiles/static_obstacle.dir/rule:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/static_obstacle.dir/rule
+.PHONY : obstacle_detection/CMakeFiles/static_obstacle.dir/rule
+
+# Convenience name for target.
+static_obstacle: obstacle_detection/CMakeFiles/static_obstacle.dir/rule
+
+.PHONY : static_obstacle
+
+# fast build rule for target.
+static_obstacle/fast:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/static_obstacle.dir/build.make obstacle_detection/CMakeFiles/static_obstacle.dir/build
+.PHONY : static_obstacle/fast
+
+# Convenience name for target.
 obstacle_detection/CMakeFiles/std_srvs_generate_messages_py.dir/rule:
 	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/std_srvs_generate_messages_py.dir/rule
 .PHONY : obstacle_detection/CMakeFiles/std_srvs_generate_messages_py.dir/rule
@@ -468,21 +498,6 @@ std_srvs_generate_messages_eus/fast:
 .PHONY : std_srvs_generate_messages_eus/fast
 
 # Convenience name for target.
-obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule:
-	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule
-.PHONY : obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-pcl_msgs_generate_messages_eus: obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule
-
-.PHONY : pcl_msgs_generate_messages_eus
-
-# fast build rule for target.
-pcl_msgs_generate_messages_eus/fast:
-	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
-.PHONY : pcl_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
 obstacle_detection/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule:
 	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
 .PHONY : obstacle_detection/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
@@ -541,6 +556,36 @@ bond_generate_messages_eus: obstacle_detection/CMakeFiles/bond_generate_messages
 bond_generate_messages_eus/fast:
 	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/bond_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/bond_generate_messages_eus.dir/build
 .PHONY : bond_generate_messages_eus/fast
+
+# Convenience name for target.
+obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule
+.PHONY : obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+pcl_msgs_generate_messages_eus: obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/rule
+
+.PHONY : pcl_msgs_generate_messages_eus
+
+# fast build rule for target.
+pcl_msgs_generate_messages_eus/fast:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
+.PHONY : pcl_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+obstacle_detection/CMakeFiles/dynamic_obstacle.dir/rule:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f CMakeFiles/Makefile2 obstacle_detection/CMakeFiles/dynamic_obstacle.dir/rule
+.PHONY : obstacle_detection/CMakeFiles/dynamic_obstacle.dir/rule
+
+# Convenience name for target.
+dynamic_obstacle: obstacle_detection/CMakeFiles/dynamic_obstacle.dir/rule
+
+.PHONY : dynamic_obstacle
+
+# fast build rule for target.
+dynamic_obstacle/fast:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build
+.PHONY : dynamic_obstacle/fast
 
 # Convenience name for target.
 obstacle_detection/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule:
@@ -1349,6 +1394,87 @@ src/clustering.cpp.s:
 	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/clustering.dir/build.make obstacle_detection/CMakeFiles/clustering.dir/src/clustering.cpp.s
 .PHONY : src/clustering.cpp.s
 
+src/dynamic_obstacle.o: src/dynamic_obstacle.cpp.o
+
+.PHONY : src/dynamic_obstacle.o
+
+# target to build an object file
+src/dynamic_obstacle.cpp.o:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/src/dynamic_obstacle.cpp.o
+.PHONY : src/dynamic_obstacle.cpp.o
+
+src/dynamic_obstacle.i: src/dynamic_obstacle.cpp.i
+
+.PHONY : src/dynamic_obstacle.i
+
+# target to preprocess a source file
+src/dynamic_obstacle.cpp.i:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/src/dynamic_obstacle.cpp.i
+.PHONY : src/dynamic_obstacle.cpp.i
+
+src/dynamic_obstacle.s: src/dynamic_obstacle.cpp.s
+
+.PHONY : src/dynamic_obstacle.s
+
+# target to generate assembly for a file
+src/dynamic_obstacle.cpp.s:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/src/dynamic_obstacle.cpp.s
+.PHONY : src/dynamic_obstacle.cpp.s
+
+src/rotary_obstacle.o: src/rotary_obstacle.cpp.o
+
+.PHONY : src/rotary_obstacle.o
+
+# target to build an object file
+src/rotary_obstacle.cpp.o:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/rotary_obstacle.dir/build.make obstacle_detection/CMakeFiles/rotary_obstacle.dir/src/rotary_obstacle.cpp.o
+.PHONY : src/rotary_obstacle.cpp.o
+
+src/rotary_obstacle.i: src/rotary_obstacle.cpp.i
+
+.PHONY : src/rotary_obstacle.i
+
+# target to preprocess a source file
+src/rotary_obstacle.cpp.i:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/rotary_obstacle.dir/build.make obstacle_detection/CMakeFiles/rotary_obstacle.dir/src/rotary_obstacle.cpp.i
+.PHONY : src/rotary_obstacle.cpp.i
+
+src/rotary_obstacle.s: src/rotary_obstacle.cpp.s
+
+.PHONY : src/rotary_obstacle.s
+
+# target to generate assembly for a file
+src/rotary_obstacle.cpp.s:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/rotary_obstacle.dir/build.make obstacle_detection/CMakeFiles/rotary_obstacle.dir/src/rotary_obstacle.cpp.s
+.PHONY : src/rotary_obstacle.cpp.s
+
+src/static_obstacle.o: src/static_obstacle.cpp.o
+
+.PHONY : src/static_obstacle.o
+
+# target to build an object file
+src/static_obstacle.cpp.o:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/static_obstacle.dir/build.make obstacle_detection/CMakeFiles/static_obstacle.dir/src/static_obstacle.cpp.o
+.PHONY : src/static_obstacle.cpp.o
+
+src/static_obstacle.i: src/static_obstacle.cpp.i
+
+.PHONY : src/static_obstacle.i
+
+# target to preprocess a source file
+src/static_obstacle.cpp.i:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/static_obstacle.dir/build.make obstacle_detection/CMakeFiles/static_obstacle.dir/src/static_obstacle.cpp.i
+.PHONY : src/static_obstacle.cpp.i
+
+src/static_obstacle.s: src/static_obstacle.cpp.s
+
+.PHONY : src/static_obstacle.s
+
+# target to generate assembly for a file
+src/static_obstacle.cpp.s:
+	cd /home/foscar/VEAC_2023/build && $(MAKE) -f obstacle_detection/CMakeFiles/static_obstacle.dir/build.make obstacle_detection/CMakeFiles/static_obstacle.dir/src/static_obstacle.cpp.s
+.PHONY : src/static_obstacle.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1360,6 +1486,8 @@ help:
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... edit_cache"
+	@echo "... rotary_obstacle"
+	@echo "... static_obstacle"
 	@echo "... std_srvs_generate_messages_py"
 	@echo "... obstacle_detection_genpy"
 	@echo "... std_srvs_generate_messages_nodejs"
@@ -1380,11 +1508,12 @@ help:
 	@echo "... dynamic_reconfigure_generate_messages_cpp"
 	@echo "... tf_generate_messages_py"
 	@echo "... std_srvs_generate_messages_eus"
-	@echo "... pcl_msgs_generate_messages_eus"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... bond_generate_messages_eus"
+	@echo "... pcl_msgs_generate_messages_eus"
+	@echo "... dynamic_obstacle"
 	@echo "... dynamic_reconfigure_generate_messages_nodejs"
 	@echo "... obstacle_detection_generate_messages_cpp"
 	@echo "... pcl_msgs_generate_messages_cpp"
@@ -1442,6 +1571,15 @@ help:
 	@echo "... src/clustering.o"
 	@echo "... src/clustering.i"
 	@echo "... src/clustering.s"
+	@echo "... src/dynamic_obstacle.o"
+	@echo "... src/dynamic_obstacle.i"
+	@echo "... src/dynamic_obstacle.s"
+	@echo "... src/rotary_obstacle.o"
+	@echo "... src/rotary_obstacle.i"
+	@echo "... src/rotary_obstacle.s"
+	@echo "... src/static_obstacle.o"
+	@echo "... src/static_obstacle.i"
+	@echo "... src/static_obstacle.s"
 .PHONY : help
 
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(obstacleDetection)
+project(obstacle_detection)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -116,7 +116,10 @@ generate_messages(
 # )
 
 generate_dynamic_reconfigure_options(
-  cfg/ve_hyper_parameter.cfg
+  cfg/hyper_parameter.cfg
+  cfg/dy_hyper_parameter.cfg
+  cfg/st_hyper_parameter.cfg
+  cfg/rt_hyper_parameter.cfg
 )
 
 ###################################
@@ -130,7 +133,7 @@ generate_dynamic_reconfigure_options(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES obstacleDetection
+  LIBRARIES obstacle_detection
   CATKIN_DEPENDS pcl_conversions pcl_ros roscpp sensor_msgs std_msgs geometry_msgs nav_msgs message_runtime laser_geometry dynamic_reconfigure
 #  EXPORTED_TARGETS ${PROJECT_NAME}_generate_message_cpp
   DEPENDS system_lib
@@ -149,6 +152,18 @@ include_directories(
 add_executable(clustering src/clustering.cpp)
 target_link_libraries(clustering ${catkin_LIBRARIES})
 add_dependencies(clustering ${PROJECT_NAME}_gencfg)
+
+add_executable(dynamic_obstacle src/dynamic_obstacle.cpp)
+target_link_libraries(dynamic_obstacle ${catkin_LIBRARIES})
+add_dependencies(dynamic_obstacle ${PROJECT_NAME}_gencfg)
+
+add_executable(static_obstacle src/static_obstacle.cpp)
+target_link_libraries(static_obstacle ${catkin_LIBRARIES})
+add_dependencies(static_obstacle ${PROJECT_NAME}_gencfg)
+
+add_executable(rotary_obstacle src/rotary_obstacle.cpp)
+target_link_libraries(rotary_obstacle ${catkin_LIBRARIES})
+add_dependencies(rotary_obstacle ${PROJECT_NAME}_gencfg)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
