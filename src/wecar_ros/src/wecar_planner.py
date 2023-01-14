@@ -33,6 +33,8 @@ class wecar_planner():
         #subscriber
         rospy.Subscriber("/Ego_topic", EgoVehicleStatus, self.statusCB) ## Vehicl Status Subscriber 
         rospy.Subscriber("/Object_topic", ObjectStatusList, self.objectInfoCB) ## Object information Subscriber
+        rospy.Subscriber("/GetTrafficLightStatus", GetTrafficLightStatus, self.trafficLightCB) ## TrafficLight
+
 
         #def
         self.is_status=False ## WeBot 상태 점검
@@ -41,7 +43,8 @@ class wecar_planner():
         self.rpm_gain = 4616
         self.motor_msg=Float64()
         self.servo_msg=Float64()
-        
+        self.is_traffic_road = False # traffic light range
+        self.traffic_signal = False
 
         #class
         path_reader=pathReader('wecar_ros') ## 경로 파일의 위치
@@ -62,25 +65,15 @@ class wecar_planner():
         #time var
         count=0
         rate = rospy.Rate(30) # 30hz
+
                                            
         #  0 1 2 3 4 5 6 -> 총 7개의 lattice 중 가운데 lattice == 3
-        lattice_current_lane = 1
-        obstacle_flag = False
+        lattice_current_lane = 3
 
         while not rospy.is_shutdown():
-            # print(self.is_status , self.is_obj)
-            
-            # Path 교체
-            if self.isTimetoChangePath():
-                self.path_name = "second"
-                self.global_path=path_reader.read_txt(self.path_name+".txt")
+            # print(self.is_status , self.is_obj)  
 
-            if self.is_status==True  and self.is_obj==True: ## WeBot 상태, 장애물 상태 점검
-
-                ################################ SECOND MAP CHANGE ################################
-                
-                ################################ SECOND MAP CHANGE ################################
-
+            if self.is_status==True:  #and self.is_obj==True: ## WeBot 상태, 장애물 상태 점검
                 ## global_path와 WeBot status_msg를 이용해 현재 waypoint와 local_path를 생성
                 local_path,self.current_waypoint=findLocalPath(self.global_path,self.status_msg) 
                 
@@ -94,7 +87,7 @@ class wecar_planner():
 
                 ########################  lattice  ########################
                 vehicle_status=[self.status_msg.position.x, self.status_msg.position.y, (self.status_msg.heading)/180*pi, self.status_msg.velocity.x/3.6]
-                lattice_path, selected_lane, obstacle_flag = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
+                lattice_path, selected_lane, _ = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
                 lattice_current_lane = selected_lane
 
                 # 최소 가중치를 갖는 lattice path 선택하기 
@@ -102,8 +95,8 @@ class wecar_planner():
                     local_path = lattice_path[selected_lane]                
                 
                 # lattice path visualization을 위한 path publish 과정
-                if len(lattice_path)==3:                    
-                    for i in range(1,4):
+                if len(lattice_path)==7:                    
+                    for i in range(1,8):
                         globals()['lattice_path_{}_pub'.format(i)].publish(lattice_path[i-1])
                 ########################  lattice  ########################
 
@@ -115,37 +108,18 @@ class wecar_planner():
 
                 self.steering=pure_pursuit.steering_angle()
                 
-                # self.cc_vel = self.cc.acc(local_obj,self.status_msg.velocity.x,vel_profile[self.current_waypoint],self.status_msg) ## advanced cruise control 적용한 속도 계획
-                self.cc_vel = 10
-                # 조향 값 확인 : rostopic echo /sensors/servo_position_command -> data
-                # range : 0.0 ~ 1.0 (straight 0.5)
+                self.cc_vel = self.cc.acc(local_obj,self.status_msg.velocity.x,vel_profile[self.current_waypoint],self.status_msg) ## advanced cruise control 적용한 속도 계획
+
                 self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset # 조향값
-
-                # 속도 값 확인 : rostopic echo /sensors/core -> state -> speed
-                # range : 0 ~ 2260.15e6
-                # 실제 대입값과 차이 있음
-                # command   topic
-                # 500       450
-                # 1000      878
-                # 2000      1858
-                # 3000      2231
-                # 3500      2255
-                # print("-------------------------------------------------")
-                # print(abs(self.servo_msg - 0.5))
-                # print("-------------------------------------------------")
-                # self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
-                if abs(self.servo_msg - 0.5) > 0.2:
-                    self.motor_msg = 1200
-                elif abs(self.servo_msg - 0.5) > 0.1:
-                    self.motor_msg = 1300
-                else: self.motor_msg = 2500
-
-                if (obstacle_flag):
-                    self.motor_msg = 1000
+                self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
             
                 local_path_pub.publish(local_path) ## Local Path 출력
 
+                self.motor_msg = 2000
 
+                # 신호등 구간에 있고 초록불이 아닐경우 속도 0을 보냄
+                if self.is_traffic_road == True and self.traffic_signal == False :
+                    self.motor_msg = 0
 
                 self.servo_pub.publish(self.servo_msg)
                 self.motor_pub.publish(self.motor_msg)
@@ -155,8 +129,6 @@ class wecar_planner():
                 global_path_pub.publish(self.global_path)
                 count=0
             count+=1
-
-           
             
             rate.sleep()
 
@@ -192,6 +164,13 @@ class wecar_planner():
                         "gps",
                         "map")
         self.is_status=True
+        # y -1.8 ~ -2.4
+        # x 6.8 ~ 7.3
+        if 6.8 <= data.position.x <= 7.3 and -2.4 <= data.position.y <= -1.8 :
+            self.is_traffic_road = True
+        else :
+            self.is_traffic_road = False
+
                     
         # print(self.status_msg.yaw)
 
@@ -226,17 +205,16 @@ class wecar_planner():
 
         # self.is_obj == 필드 위에 객체가 있는지 판단하는 boolean형 변수. self.object_info 리스트에 정보가 있을 때만 True여야 하는데 여기서는 그냥 True를 디폴트값으로 넣어버림. 수정 필요 
         self.is_obj=True
+    
+    def trafficLightCB(self, data) :    
+        # only green light -> go straight
+        # green light == 16
+        if  self.is_traffic_road == True and data.trafficLightStatus == 16 : 
+            self.traffic_signal = True
+        else : 
+            self.traffic_signal = False
 
-    def isTimetoChangePath(self):
-        second_map_x = 0.527515172958
-        second_map_y = -5.40659809113
-        dx = self.status_msg.position.x - second_map_x
-        dy = self.status_msg.position.y - second_map_y
-        map_dis = sqrt(dx ** 2 + dy ** 2)
 
-        if (map_dis < 0.3):
-            return True
-            
 
 if __name__ == '__main__':
     try:

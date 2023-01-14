@@ -1,2 +1,2 @@
-morai_msgs:obstacleDetection:pure_pursuit:scalecar:velodyne/velodyne:velodyne/velodyne_driver:velodyne/velodyne_laserscan:velodyne/velodyne_msgs:velodyne/velodyne_pcl:velodyne/velodyne_pointcloud:vesc_msgs:wecar_ros
+morai_msgs:obstacleDetection:pure_pursuit:scalecar:vesc_msgs:wecar_ros
 -DCATKIN_DEVEL_PREFIX=/home/foscar/VEAC_2023/devel -DCMAKE_INSTALL_PREFIX=/home/foscar/VEAC_2023/install -G Unix Makefiles
