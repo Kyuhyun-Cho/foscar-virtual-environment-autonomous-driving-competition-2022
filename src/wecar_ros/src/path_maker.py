@@ -16,8 +16,8 @@ class test :
 
     def __init__(self):
         rospy.init_node('path_maker', anonymous=True)
-
-	self.cnt = 0
+    
+        self.cnt = 0
 
         arg = rospy.myargv(argv=sys.argv)
         self.path_folder_name=arg[1]
@@ -50,10 +50,11 @@ class test :
         y=self.status_msg.position.y
         z=self.status_msg.position.z
         distance=sqrt(pow(x-self.prev_x,2)+pow(y-self.prev_y,2))
+        mode = 0
         if distance > 0.05:   #0.3
-            data='{0}\t{1}\t{2}\n'.format(x,y,z)
+            data='{0}\t{1}\t{2}\t{3}\n'.format(x,y,z,mode)
             self.f.write(data)
-	    self.cnt += 1
+            self.cnt += 1
             self.prev_x=x
             self.prev_y=y
             print(self.cnt,x,y)

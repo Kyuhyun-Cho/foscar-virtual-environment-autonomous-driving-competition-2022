@@ -64,12 +64,29 @@ class wecar_planner():
         rate = rospy.Rate(30) # 30hz
                                            
         #  0 1 2 3 4 5 6 -> 총 7개의 lattice 중 가운데 lattice == 3
-        lattice_current_lane = 3
+        lattice_current_lane = 1
+        obstacle_flag = False
+
+
+
 
         while not rospy.is_shutdown():
-            print(self.is_status , self.is_obj)
+            # print(self.is_status , self.is_obj)
                         
             if self.is_status==True  and self.is_obj==True: ## WeBot 상태, 장애물 상태 점검
+
+                ################################ SECOND MAP CHANGE ################################
+                second_map_x = 0.527515172958
+                second_map_y = -5.40659809113
+                dx = self.status_msg.position.x - second_map_x
+                dy = self.status_msg.position.y - second_map_y
+                map_dis = sqrt(dx ** 2 + dy ** 2)
+
+                if (map_dis < 0.3):
+                    self.path_name = "second"
+                    self.global_path=path_reader.read_txt(self.path_name+".txt")
+                ################################ SECOND MAP CHANGE ################################
+
                 ## global_path와 WeBot status_msg를 이용해 현재 waypoint와 local_path를 생성
                 local_path,self.current_waypoint=findLocalPath(self.global_path,self.status_msg) 
                 
@@ -83,7 +100,7 @@ class wecar_planner():
 
                 ########################  lattice  ########################
                 vehicle_status=[self.status_msg.position.x, self.status_msg.position.y, (self.status_msg.heading)/180*pi, self.status_msg.velocity.x/3.6]
-                lattice_path, selected_lane = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
+                lattice_path, selected_lane, obstacle_flag = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
                 lattice_current_lane = selected_lane
 
                 # 최소 가중치를 갖는 lattice path 선택하기 
@@ -91,8 +108,8 @@ class wecar_planner():
                     local_path = lattice_path[selected_lane]                
                 
                 # lattice path visualization을 위한 path publish 과정
-                if len(lattice_path)==7:                    
-                    for i in range(1,8):
+                if len(lattice_path)==3:                    
+                    for i in range(1,4):
                         globals()['lattice_path_{}_pub'.format(i)].publish(lattice_path[i-1])
                 ########################  lattice  ########################
 
@@ -104,12 +121,37 @@ class wecar_planner():
 
                 self.steering=pure_pursuit.steering_angle()
                 
-                self.cc_vel = self.cc.acc(local_obj,self.status_msg.velocity.x,vel_profile[self.current_waypoint],self.status_msg) ## advanced cruise control 적용한 속도 계획
-
+                # self.cc_vel = self.cc.acc(local_obj,self.status_msg.velocity.x,vel_profile[self.current_waypoint],self.status_msg) ## advanced cruise control 적용한 속도 계획
+                self.cc_vel = 10
+                # 조향 값 확인 : rostopic echo /sensors/servo_position_command -> data
+                # range : 0.0 ~ 1.0 (straight 0.5)
                 self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset # 조향값
-                self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
+
+                # 속도 값 확인 : rostopic echo /sensors/core -> state -> speed
+                # range : 0 ~ 2260.15e6
+                # 실제 대입값과 차이 있음
+                # command   topic
+                # 500       450
+                # 1000      878
+                # 2000      1858
+                # 3000      2231
+                # 3500      2255
+                # print("-------------------------------------------------")
+                # print(abs(self.servo_msg - 0.5))
+                # print("-------------------------------------------------")
+                # self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
+                if abs(self.servo_msg - 0.5) > 0.2:
+                    self.motor_msg = 1200
+                elif abs(self.servo_msg - 0.5) > 0.1:
+                    self.motor_msg = 1300
+                else: self.motor_msg = 2500
+
+                if (obstacle_flag):
+                    self.motor_msg = 1000
             
                 local_path_pub.publish(local_path) ## Local Path 출력
+
+
 
                 self.servo_pub.publish(self.servo_msg)
                 self.motor_pub.publish(self.motor_msg)
@@ -119,6 +161,8 @@ class wecar_planner():
                 global_path_pub.publish(self.global_path)
                 count=0
             count+=1
+
+           
             
             rate.sleep()
 

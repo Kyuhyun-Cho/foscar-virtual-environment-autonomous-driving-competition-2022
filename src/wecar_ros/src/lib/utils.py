@@ -9,7 +9,6 @@ import numpy as np
 from math import cos,sin,sqrt,pow,atan2,pi
 import tf
 
-
 class pathReader :
     def __init__(self,pkg_name):
         rospack=rospkg.RosPack()
@@ -125,8 +124,8 @@ class purePursuit :
         self.current_postion=Point()
         self.is_look_forward_point=False
         self.lfd=1
-        self.min_lfd= 1
-        self.max_lfd=30
+        self.min_lfd= 0.5
+        self.max_lfd= 5
         self.vehicle_length=0.3
         self.steering=0
         
@@ -155,8 +154,8 @@ class purePursuit :
             
             if rotated_point.x>0 :
                 dis=sqrt(pow(rotated_point.x,2)+pow(rotated_point.y,2))
-                print("dis")
-                print("dis , lfd : ", dis, self.lfd)
+                # print("dis")
+                # print("dis , lfd : ", dis, self.lfd)
                 if dis>= self.lfd :
                     
                     self.lfd=self.current_vel / 1.8
@@ -166,17 +165,17 @@ class purePursuit :
                         self.lfd=self.max_lfd
                     self.forward_point=path_point
                     self.is_look_forward_point=True
-                    
+                    # print("LFD: ", self.lfd)
                     break
         
         theta=atan2(rotated_point.y,rotated_point.x)
 
         if self.is_look_forward_point :
             self.steering=atan2((2*self.vehicle_length*sin(theta)),self.lfd)*180/pi #deg
-            print( self.steering)
+            # print( self.steering)
             return self.steering 
         else : 
-            print("no found forward point")
+            # print("no found forward point")
             return 0
         
 
@@ -222,12 +221,12 @@ class cruiseControl:
                                     min_rel_distance=rel_distance
                                     self.traffic=[True,i]
 
-    def acc(self,local_vaild_object,ego_vel,target_vel,status_msg):
+    def acc(self, local_vaild_object, ego_vel, target_vel, status_msg):
         out_vel=target_vel
         pre_out_vel = out_vel
 
         if self.Person[0]==True:
-            print("ACC ON_person")
+            # print("ACC ON_person")
             Pedestrian=[local_vaild_object[self.Person[1]][1],local_vaild_object[self.Person[1]][2],local_vaild_object[self.Person[1]][3]]
             time_gap=0.6
             default_space=1
@@ -252,7 +251,7 @@ class cruiseControl:
                     out_vel=acc_based_vel
 
         if self.traffic[0] == True :
-            print("Traffic_ON")   
+            # print("Traffic_ON")   
             front_vehicle=[local_vaild_object[self.traffic[1]][1],local_vaild_object[self.traffic[1]][2],local_vaild_object[self.traffic[1]][3]]
             time_gap=0.3
             default_space=0.1
@@ -280,7 +279,7 @@ class cruiseControl:
             if dis_rel < 1 :
                 out_vel = 0
 
-        print("out_vel", out_vel)
+        # print("out_vel", out_vel)
         return out_vel
 
 
@@ -370,15 +369,16 @@ class pidController : ## 속도 제어를 위한 PID 적용 ##
 
 ########################  lattice  ########################
 def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
+    obstacle_flag = False
     out_path = []
     selected_lane = -1 # 기본값 -1
     lattic_current_lane = current_lane #  == 3
     look_distance=int(vehicle_status[3] * 3.6 * 0.2 * 2)
     # print("\nlook_dist :\n", look_distance)
-    if look_distance < 5 :
-        look_distance = 5    # min 5m
-    if look_distance > 8 :
-        look_distance = 8    # max 8m
+    if look_distance < 4 :
+        look_distance = 4    # min 5m
+    if look_distance > 7 :
+        look_distance = 7    # max 8m
 
     if len(ref_path.poses) > look_distance :
         global_ref_start_point = (ref_path.poses[0].pose.position.x, ref_path.poses[0].pose.position.y) # local_path 첫번째 waypoint
@@ -397,7 +397,8 @@ def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
         local_ego_vehicle_position=det_t.dot(world_ego_vehicle_position)
 
         # lattice 간격
-        lane_off_set=[3.0, 2.0, 1.0, 0, -1.0, -2.0, -3.0]
+        lane_off_set=[0.5, 0, -0.5]
+        # lane_off_set=[0.35, 0, -0.35]
         local_lattice_points=[]
 
         ############################# lattice path 생성  #############################
@@ -453,8 +454,8 @@ def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
             add_point_size=len(ref_path.poses)
 
         # lattice path 크기
-        elif add_point_size < 200 :
-            add_point_size = 200
+        elif add_point_size < 30 :
+            add_point_size = 30
         
         for i in range(look_distance,add_point_size):
             if i+1 < len(ref_path.poses):
@@ -479,7 +480,7 @@ def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
                     out_path[lane_num].poses.append(read_pose)
 
         # lattice path 가중치
-        lane_weight=[6, 4, 2, 0, 2, 4, 6] #reference path 
+        lane_weight=[2, 0, 2] #reference path 
         collision_bool=[False, False, False, False, False, False, False]
 
         if len(global_vaild_object)>0: # global_vaild_object == global_obj
@@ -489,24 +490,30 @@ def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
                         for path_pos in out_path[path_num].poses :
                             dis= sqrt(pow(obj[1] - path_pos.pose.position.x, 2) + pow(obj[2] - path_pos.pose.position.y, 2)) # lattice path와 장애물과의 거리 계산
 
+                            # print("dis : ", dis)
+
                             # lattice path와 장애물과의 거리가 1m보다 가까우면
-                            if dis < 1.0:
+                            if dis < 0.3:
                                 collision_bool[path_num] = True
                                 lane_weight[path_num]=lane_weight[path_num]+100 # 가중치 더해주기, 가중치를 더해줄수록 장애물과 가까운 lattice라는 뜻 == 주행하면 안되는 lattice
+                                obstacle_flag = True
                                 break
+                        # print("================")
         else :
-            print("No Obstacle")
+            obstacle_flag = False
+            # print("No Obstacle")
 
         selected_lane = lane_weight.index(min(lane_weight)) # 최소 가중치를 갖는 lattice path 선택하기
-        print(lane_weight, selected_lane)
+        # print(obstacle_flag)
+        # print(lane_weight, selected_lane)
 
         # 안쓰이는 변수 같음 
         all_lane_collision = True
         
     else :
-        print("NO Reference Path")
+        # print("NO Reference Path")
         selected_lane=-1    
 
-    return out_path, selected_lane
+    return out_path, selected_lane, obstacle_flag
 
 ########################  lattice  ########################
