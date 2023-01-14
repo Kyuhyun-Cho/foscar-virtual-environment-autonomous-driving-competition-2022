@@ -1,0 +1,8 @@
+prefix=/home/foscar/VEAC_2023/install
+
+Name: obstacle_detection
+Description: Description of obstacle_detection
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lobstacle_detection
+Requires: pcl_conversions pcl_ros roscpp sensor_msgs std_msgs geometry_msgs nav_msgs message_runtime laser_geometry dynamic_reconfigure

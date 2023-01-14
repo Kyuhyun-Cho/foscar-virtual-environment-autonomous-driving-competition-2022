@@ -1,0 +1,3 @@
+<launch>
+	<node pkg="wecar_ros" type="camera.py" name="kuad" output="screen"/>
+</launch>

@@ -1,0 +1,8 @@
+prefix=/home/foscar/VEAC_2023/devel
+
+Name: vesc_msgs
+Description: Description of vesc_msgs
+Version: 0.0.1
+Cflags: -I/home/foscar/VEAC_2023/devel/include
+Libs: -L${prefix}/lib 
+Requires: std_msgs message_runtime

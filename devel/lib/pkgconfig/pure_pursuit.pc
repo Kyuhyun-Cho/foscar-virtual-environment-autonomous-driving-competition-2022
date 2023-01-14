@@ -1,0 +1,8 @@
+prefix=/home/foscar/VEAC_2023/devel
+
+Name: pure_pursuit
+Description: Description of pure_pursuit
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

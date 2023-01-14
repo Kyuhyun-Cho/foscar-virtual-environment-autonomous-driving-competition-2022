@@ -1,0 +1,8 @@
+prefix=/home/foscar/VEAC_2023/install
+
+Name: scalecar
+Description: Description of scalecar
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

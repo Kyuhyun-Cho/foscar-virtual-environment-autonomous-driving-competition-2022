@@ -1,0 +1,25 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/foscar/FMTC_2022/devel/lib/python2.7/dist-packages",
+        "/home/foscar/ISCC_2022/devel/lib/python2.7/dist-packages",
+        "/home/foscar/ISCC_2021/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/foscar/FMTC_2022/devel/lib/python2.7/dist-packages",
+        "/home/foscar/ISCC_2022/devel/lib/python2.7/dist-packages",
+        "/home/foscar/ISCC_2021/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ],
+    "files.associations": {
+        "limits": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "vector": "cpp",
+        "iterator": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp"
+    }
+}
