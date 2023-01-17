@@ -1,4 +1,4 @@
-#!/home/foscar/anaconda3/bin/python2
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 
 # Software License Agreement (BSD License)
@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
         if not args.local:
             # environment at generation time
-            CMAKE_PREFIX_PATH = r'/home/foscar/VEAC_2023/devel;/home/foscar/ISCC_2022/devel;/opt/ros/melodic'.split(';')
+            CMAKE_PREFIX_PATH = r'/home/foscar/VEAC_2023/devel;/home/foscar/catkin_build_ws/install;/home/foscar/FMTC_2022/install;/home/foscar/FMTC_2022/devel;/home/foscar/ISCC_2022/devel;/home/foscar/ISCC_2021/devel;/opt/ros/melodic'.split(';')
         else:
             # don't consider any other prefix path than this one
             CMAKE_PREFIX_PATH = []

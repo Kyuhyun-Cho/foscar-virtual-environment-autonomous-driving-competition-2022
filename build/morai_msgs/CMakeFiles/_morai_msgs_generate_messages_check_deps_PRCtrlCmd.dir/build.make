@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/foscar/VEAC_2023/build
 include morai_msgs/CMakeFiles/_morai_msgs_generate_messages_check_deps_PRCtrlCmd.dir/progress.make
 
 morai_msgs/CMakeFiles/_morai_msgs_generate_messages_check_deps_PRCtrlCmd:
-	cd /home/foscar/VEAC_2023/build/morai_msgs && ../catkin_generated/env_cached.sh /home/foscar/anaconda3/bin/python2 /opt/ros/melodic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py morai_msgs /home/foscar/VEAC_2023/src/morai_msgs/msg/PRCtrlCmd.msg 
+	cd /home/foscar/VEAC_2023/build/morai_msgs && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py morai_msgs /home/foscar/VEAC_2023/src/morai_msgs/msg/PRCtrlCmd.msg 
 
 _morai_msgs_generate_messages_check_deps_PRCtrlCmd: morai_msgs/CMakeFiles/_morai_msgs_generate_messages_check_deps_PRCtrlCmd
 _morai_msgs_generate_messages_check_deps_PRCtrlCmd: morai_msgs/CMakeFiles/_morai_msgs_generate_messages_check_deps_PRCtrlCmd.dir/build.make

@@ -58,7 +58,7 @@ wecar_ros/CMakeFiles/wecar_ros_generate_messages_eus: /home/foscar/VEAC_2023/dev
 
 /home/foscar/VEAC_2023/devel/share/roseus/ros/wecar_ros/manifest.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp manifest code for wecar_ros"
-	cd /home/foscar/VEAC_2023/build/wecar_ros && ../catkin_generated/env_cached.sh /home/foscar/anaconda3/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/foscar/VEAC_2023/devel/share/roseus/ros/wecar_ros wecar_ros sensor_msgs std_msgs geometry_msgs nav_msgs
+	cd /home/foscar/VEAC_2023/build/wecar_ros && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/foscar/VEAC_2023/devel/share/roseus/ros/wecar_ros wecar_ros sensor_msgs std_msgs geometry_msgs nav_msgs
 
 wecar_ros_generate_messages_eus: wecar_ros/CMakeFiles/wecar_ros_generate_messages_eus
 wecar_ros_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/wecar_ros/manifest.l

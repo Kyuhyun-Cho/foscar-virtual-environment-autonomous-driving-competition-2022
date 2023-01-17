@@ -28,12 +28,10 @@ typedef pcl::PointXYZ PointT;
 vector<float> obstacle;
 vector< vector<float> > obstacle_vec;
 
-ros::Publisher obsClusterPub; //Cluster Publishser
-ros::Publisher obsMarkerPub; //Bounnding Box Visualization Publisher
-ros::Publisher obsPosePub; //Bounding Box Position Publisher
-ros::Publisher obsCropboxPub; //Cropbox Publishser
-ros::Publisher obsShortFlagPub;
-ros::Publisher obsLongFlagPub;
+ros::Publisher stObsClusterPub; //Cluster Publishser
+ros::Publisher stObsMarkerPub; //Bounnding Box Visualization Publisher
+ros::Publisher stObsPosePub; //Bounding Box Position Publisher
+ros::Publisher stObsCropboxPub; //Cropbox Publishser
 
 laser_geometry::LaserProjection projector_;
 // tf::TransformListener listener_;
@@ -221,7 +219,20 @@ void cloud_cb(const sensor_msgs::PointCloud2 inputcloud) {
     cout << '\n' << '\n' << '\n';
   }
 
-
+  if (obstacle_vec.size() > 0) {
+    BoxPosition.x = obstacle_vec[0][0];
+    BoxPosition.y = obstacle_vec[0][1];
+    BoxPosition.z = obstacle_vec[0][2];
+    BoxPosition.volume = 0;
+    BoxPosition.distance = obstacle_vec[0][3];
+  } 
+  else {
+    BoxPosition.x = 0;
+    BoxPosition.y = 0;
+    BoxPosition.z = 0;
+    BoxPosition.volume = 0;
+    BoxPosition.distance = 0;
+  }  
 
   //Convert To ROS data type 
   pcl::PCLPointCloud2 cloud_p;
@@ -238,10 +249,10 @@ void cloud_cb(const sensor_msgs::PointCloud2 inputcloud) {
   pcl_conversions::fromPCL(cloud_cropbox, cropbox);
   cropbox.header.frame_id = "velodyne";
 
-  obsClusterPub.publish(cluster);
-  obsMarkerPub.publish(BoxArray);
-  // obsPosePub.publish(BoxPosition);
-  obsCropboxPub.publish(cropbox);
+  stObsClusterPub.publish(cluster);
+  stObsMarkerPub.publish(BoxArray);
+  stObsPosePub.publish(BoxPosition);
+  stObsCropboxPub.publish(cropbox);
 
   vector< vector<float> >().swap(obstacle_vec);   
 }
@@ -275,10 +286,10 @@ int main(int argc, char **argv) {
 
   ros::Subscriber rawDataSub = nh.subscribe("/lidar2D", 1, laser2cloudmsg);  // velodyne_points 토픽 구독. velodyne_points = 라이다 raw data
 
-  obsClusterPub = nh.advertise<sensor_msgs::PointCloud2>("/st_obs_cluster", 0.001);                  
-  obsMarkerPub = nh.advertise<visualization_msgs::MarkerArray>("/st_obs_marker", 0.001);  
-  obsPosePub = nh.advertise<obstacle_detection::Boundingbox>("/st_obs_position", 0.001);    
-  obsCropboxPub = nh.advertise<sensor_msgs::PointCloud2>("/st_obs_cropbox", 0.001); 
+  stObsClusterPub = nh.advertise<sensor_msgs::PointCloud2>("/st_obs_cluster", 0.001);                  
+  stObsMarkerPub = nh.advertise<visualization_msgs::MarkerArray>("/st_obs_marker", 0.001);  
+  stObsPosePub = nh.advertise<obstacle_detection::Boundingbox>("/st_obs_position", 0.001);    
+  stObsCropboxPub = nh.advertise<sensor_msgs::PointCloud2>("/st_obs_cropbox", 0.001); 
 
   ros::spin();
 

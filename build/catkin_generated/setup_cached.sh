@@ -7,6 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export LD_LIBRARY_PATH='/home/foscar/VEAC_2023/devel/lib:/home/foscar/ISCC_2022/devel/lib:/opt/ros/melodic/lib:/usr/local/cuda-11.4/lib64'
-export PATH='/opt/ros/melodic/bin:/home/foscar/anaconda3/bin:/home/foscar/anaconda3/condabin:/usr/local/cuda-11.4/bin:/home/foscar/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
+export LD_LIBRARY_PATH='/home/foscar/VEAC_2023/devel/lib:/home/foscar/catkin_build_ws/install/lib:/home/foscar/FMTC_2022/install/lib:/home/foscar/FMTC_2022/devel/lib:/home/foscar/ISCC_2022/devel/lib:/home/foscar/ISCC_2021/devel/lib:/opt/ros/melodic/lib:/usr/local/cuda-10.2/lib64:'
 export PWD='/home/foscar/VEAC_2023/build'

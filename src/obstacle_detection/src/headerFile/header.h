@@ -49,6 +49,7 @@
 #include <geometry_msgs/PoseArray.h>
 
 #include <std_msgs/Bool.h>
+#include <std_msgs/Float64.h>
 
 #include <laser_geometry/laser_geometry.h>
 #include <ros/assert.h>

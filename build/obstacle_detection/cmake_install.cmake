@@ -62,7 +62,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  execute_process(COMMAND "/home/foscar/anaconda3/bin/python2" -m compileall "/home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection")
+  execute_process(COMMAND "/usr/bin/python2" -m compileall "/home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -90,7 +90,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  execute_process(COMMAND "/home/foscar/anaconda3/bin/python2" -m compileall "/home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection/cfg")
+  execute_process(COMMAND "/usr/bin/python2" -m compileall "/home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection/cfg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

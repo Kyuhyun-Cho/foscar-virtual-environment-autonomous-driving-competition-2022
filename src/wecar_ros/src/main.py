@@ -10,7 +10,7 @@ from nav_msgs.msg import Path,Odometry
 from std_msgs.msg import Float64,Int16,Float32MultiArray
 from geometry_msgs.msg import PoseStamped,Point,Point32
 from morai_msgs.msg import EgoVehicleStatus,ObjectStatusList,CtrlCmd,GetTrafficLightStatus,SetTrafficLight
-from lib.utils import pathReader,findLocalPath,cruiseControl,purePursuit,vaildObject,velocityPlanning,latticePlanner
+from wecar_ros.src.lib.utils import pathReader,findLocalPath,cruiseControl,purePursuit,vaildObject,velocityPlanning,latticePlanner
 import tf
 import math
 from math import cos,sin,sqrt,pow,atan,atan2,pi

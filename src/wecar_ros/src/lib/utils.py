@@ -365,14 +365,15 @@ class pidController : ## 속도 제어를 위한 PID 적용 ##
         self.prev_error=error
         return output
 
-
+previous_selected_lane = -2
 
 ########################  lattice  ########################
-def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
-    obstacle_flag = False
+def latticePlanner(ref_path, st_obstacle_list, vehicle_status, current_lane):
+    global previous_selected_lane
+
     out_path = []
     selected_lane = -1 # 기본값 -1
-    lattic_current_lane = current_lane #  == 3
+    lattic_current_lane = current_lane #  == 1
     look_distance=int(vehicle_status[3] * 3.6 * 0.2 * 2)
     # print("\nlook_dist :\n", look_distance)
     if look_distance < 4 :
@@ -397,7 +398,7 @@ def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
         local_ego_vehicle_position=det_t.dot(world_ego_vehicle_position)
 
         # lattice 간격
-        lane_off_set=[0.5, 0, -0.5]
+        lane_off_set=[0.4, 0, -0.4]
         # lane_off_set=[0.35, 0, -0.35]
         local_lattice_points=[]
 
@@ -480,40 +481,32 @@ def latticePlanner(ref_path, global_vaild_object, vehicle_status, current_lane):
                     out_path[lane_num].poses.append(read_pose)
 
         # lattice path 가중치
-        lane_weight=[2, 0, 2] #reference path 
-        collision_bool=[False, False, False, False, False, False, False]
+        lane_weight=[1, 0, 99999] #reference path 
+        collision_bool=[False, False, False]
 
-        if len(global_vaild_object)>0: # global_vaild_object == global_obj
-            for obj in global_vaild_object :
-                if  obj[0] == 1 or obj[0] == 2 : # 장애물 타입이 NPC 차량 1 or 정적장애물 2 라면
-                    for path_num in range(len(out_path)) :
-                        for path_pos in out_path[path_num].poses :
-                            dis= sqrt(pow(obj[1] - path_pos.pose.position.x, 2) + pow(obj[2] - path_pos.pose.position.y, 2)) # lattice path와 장애물과의 거리 계산
+        # 장애물이 잡혔을 때
+        if st_obstacle_list[0] != 0 and st_obstacle_list[1] != 0 and st_obstacle_list[2] != 0: 
+            # 그 장애물이 차선 안에 있을 때
+            if -0.1 < st_obstacle_list[1] < 0.1:
+                collision_bool[current_lane] = True # 충돌 위험 표시
+                lane_weight[current_lane] = lane_weight[current_lane] + 100 # 가중치 더해주기, 가중치를 더해줄수록 장애물과 가까운 lattice라는 뜻 == 주행하면 안되는 lattice
+            
+            # 장애뭉리 차선 밖에 있으면 이전에 가던 차선으로 가기
+            elif previous_selected_lane != -2:
+                return out_path, previous_selected_lane
 
-                            # print("dis : ", dis)
-
-                            # lattice path와 장애물과의 거리가 1m보다 가까우면
-                            if dis < 0.3:
-                                collision_bool[path_num] = True
-                                lane_weight[path_num]=lane_weight[path_num]+100 # 가중치 더해주기, 가중치를 더해줄수록 장애물과 가까운 lattice라는 뜻 == 주행하면 안되는 lattice
-                                obstacle_flag = True
-                                break
-                        # print("================")
-        else :
-            obstacle_flag = False
-            # print("No Obstacle")
-
+        # 장애물이 안잡히면 이전에 가던 차선으로 가기
+        elif previous_selected_lane != -2:
+            return out_path, previous_selected_lane
+        
         selected_lane = lane_weight.index(min(lane_weight)) # 최소 가중치를 갖는 lattice path 선택하기
-        # print(obstacle_flag)
-        # print(lane_weight, selected_lane)
-
-        # 안쓰이는 변수 같음 
-        all_lane_collision = True
+        previous_selected_lane = selected_lane
+    
         
     else :
         # print("NO Reference Path")
         selected_lane=-1    
 
-    return out_path, selected_lane, obstacle_flag
+    return out_path, selected_lane
 
 ########################  lattice  ########################

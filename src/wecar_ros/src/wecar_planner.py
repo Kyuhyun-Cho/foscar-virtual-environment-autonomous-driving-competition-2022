@@ -8,9 +8,18 @@ from nav_msgs.msg import Path,Odometry
 from std_msgs.msg import Float64,Int16,Float32MultiArray
 from geometry_msgs.msg import PoseStamped,Point
 from morai_msgs.msg import EgoVehicleStatus,ObjectStatusList,CtrlCmd,GetTrafficLightStatus,SetTrafficLight
-from lib.utils import pathReader, findLocalPath,purePursuit,cruiseControl,vaildObject,pidController,velocityPlanning,latticePlanner
+from lib.utils import pathReader,findLocalPath,purePursuit,cruiseControl,vaildObject,pidController,velocityPlanning,latticePlanner
+from obstacle_detection.msg import Boundingbox
 import tf
+import time
 from math import cos,sin,sqrt,pow,atan2,pi
+
+class Point():
+    def __init__(self, min_x, min_y, max_x, max_y):
+        self.x1 = min_x
+        self.y1 = min_y
+        self.x2 = max_x
+        self.y2 = max_y
 
 
 class wecar_planner():
@@ -20,7 +29,7 @@ class wecar_planner():
         arg = rospy.myargv(argv=sys.argv)
         self.path_name=arg[1]
 
-        #publisher
+        # Publisher
         global_path_pub= rospy.Publisher('/global_path',Path, queue_size=1) ## global_path publisher 
         local_path_pub= rospy.Publisher('/local_path',Path, queue_size=1) ## local_path publisher
         self.motor_pub = rospy.Publisher('commands/motor/speed',Float64, queue_size=1)
@@ -30,21 +39,50 @@ class wecar_planner():
             globals()['lattice_path_{}_pub'.format(i)]=rospy.Publisher('lattice_path_{}'.format(i),Path,queue_size=1)  
         ########################  lattice  ########################
         
-        #subscriber
+        # Subscriber
         rospy.Subscriber("/Ego_topic", EgoVehicleStatus, self.statusCB) ## Vehicl Status Subscriber 
         rospy.Subscriber("/Object_topic", ObjectStatusList, self.objectInfoCB) ## Object information Subscriber
         rospy.Subscriber("/GetTrafficLightStatus", GetTrafficLightStatus, self.trafficLightCB) ## TrafficLight
+        rospy.Subscriber("/rt_obs_position", Boundingbox, self.rtObstacleCB)
+        rospy.Subscriber("/dy_obs_position", Boundingbox, self.dyObstacleCB)
+        rospy.Subscriber("/st_obs_position", Boundingbox, self.stObstacleCB)
 
-
-        #def
         self.is_status=False ## WeBot 상태 점검
         self.is_obj=False ## 장애물 상태 점검
         self.steering_angle_to_servo_offset=0.5 ## servo moter offset
         self.rpm_gain = 4616
         self.motor_msg=Float64()
         self.servo_msg=Float64()
-        self.is_traffic_road = False # traffic light range
-        self.traffic_signal = False
+        
+        # Mission Area Point FORMAT: min_x, min_y, max_x, max_y
+        self.traffic_area = Point(6.85, -2.5, 7.5, -1.95)
+        self.rotary_area = Point(10.0, -2.7, 15.57, 3.25)
+        self.rotary_stop_area = Point(12.1, 1.6, 12.8, 2.0)
+        self.dynamic_obs_area = Point(1.3, 4.0, 6.0, 5.75)
+
+        # Traffic Mission Parameter
+        self.traffic_greenlight = False
+
+        # Rotary Mission Parameter
+        self.rt_obstacle_x = 0
+        self.rt_obstacle_y = 0
+        self.rt_obstacle_dis = 0
+
+        # Dynamic Obstacle Mission Parameter
+        self.is_dynamic = False
+        self.dy_obstacle_x = 0
+        self.dy_obstacle_y = 0
+        self.dy_obstacle_dis = 0
+        self.y_array = []
+
+        # Static Obstacle Mission Parameter
+        self.st_obstacle_x = 0
+        self.st_obstacle_y = 0
+        self.st_obstacle_dis = 0
+        self.st_obstacle_list = []
+
+        self.isStopped = False
+
 
         #class
         path_reader=pathReader('wecar_ros') ## 경로 파일의 위치
@@ -60,20 +98,27 @@ class wecar_planner():
         vel_planner=velocityPlanning(10,0.15) ## 속도 계획
         vel_profile=vel_planner.curveBasedVelocity(self.global_path,30)
         
-
-        
         #time var
         count=0
         rate = rospy.Rate(30) # 30hz
-
                                            
         #  0 1 2 3 4 5 6 -> 총 7개의 lattice 중 가운데 lattice == 3
-        lattice_current_lane = 3
+        lattice_current_lane = 1
 
         while not rospy.is_shutdown():
-            # print(self.is_status , self.is_obj)  
+            # print(self.is_status , self.is_obj)
+            
+            # Path 교체
+            if self.isTimetoChangePath():
+                self.path_name = "second"
+                self.global_path=path_reader.read_txt(self.path_name+".txt")
 
-            if self.is_status==True:  #and self.is_obj==True: ## WeBot 상태, 장애물 상태 점검
+            if self.is_status==True  and self.is_obj==True: ## WeBot 상태, 장애물 상태 점검
+
+                ################################ SECOND MAP CHANGE ################################
+                
+                ################################ SECOND MAP CHANGE ################################
+
                 ## global_path와 WeBot status_msg를 이용해 현재 waypoint와 local_path를 생성
                 local_path,self.current_waypoint=findLocalPath(self.global_path,self.status_msg) 
                 
@@ -87,16 +132,19 @@ class wecar_planner():
 
                 ########################  lattice  ########################
                 vehicle_status=[self.status_msg.position.x, self.status_msg.position.y, (self.status_msg.heading)/180*pi, self.status_msg.velocity.x/3.6]
-                lattice_path, selected_lane = latticePlanner(local_path, global_obj, vehicle_status, lattice_current_lane)
+                lattice_path, selected_lane = latticePlanner(local_path, self.st_obstacle_list, vehicle_status, lattice_current_lane)
                 lattice_current_lane = selected_lane
 
                 # 최소 가중치를 갖는 lattice path 선택하기 
                 if selected_lane != -1: 
-                    local_path = lattice_path[selected_lane]                
-                
+                    if self.isMissionArea(self.rotary_area.x1, self.rotary_area.y1, self.rotary_area.x2, self.rotary_area.y2):
+                        local_path = lattice_path[1]
+                    else:
+                        local_path = lattice_path[selected_lane]                
+
                 # lattice path visualization을 위한 path publish 과정
-                if len(lattice_path)==7:                    
-                    for i in range(1,8):
+                if len(lattice_path)==3:                    
+                    for i in range(1,4):
                         globals()['lattice_path_{}_pub'.format(i)].publish(lattice_path[i-1])
                 ########################  lattice  ########################
 
@@ -108,28 +156,90 @@ class wecar_planner():
 
                 self.steering=pure_pursuit.steering_angle()
                 
-                self.cc_vel = self.cc.acc(local_obj,self.status_msg.velocity.x,vel_profile[self.current_waypoint],self.status_msg) ## advanced cruise control 적용한 속도 계획
+                # self.cc_vel = self.cc.acc(local_obj,self.status_msg.velocity.x,vel_profile[self.current_waypoint],self.status_msg) ## advanced cruise control 적용한 속도 계획
+                self.cc_vel = 10
 
+                # 조향 값 확인 : rostopic echo /sensors/servo_position_command -> data
+                # range : 0.0 ~ 1.0 (straight 0.5)
                 self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset # 조향값
-                self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
-            
+
+                # 속도 값 확인 : rostopic echo /sensors/core -> state -> speed
+                # range : 0 ~ 2260.15e6
+                # 실제 대입값과 차이 있음
+                # command   topic
+                # 500       450
+                # 1000      878
+                # 2000      1858
+                # 3000      2231
+                # 3500      2255
+                # print("-------------------------------------------------")
+                # print(abs(self.servo_msg - 0.5))
+                # print("-------------------------------------------------")
+                # self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
+
+                servo_degree = abs(self.servo_msg - 0.5)
+                if servo_degree > 0.2:
+                    self.motor_msg = 1200
+                elif servo_degree > 0.1:
+                    self.motor_msg = 1300
+                else: self.motor_msg = 1500 # 2500
+                
+                # 신호등 구간
+                if self.isMissionArea(self.traffic_area.x1, self.traffic_area.y1, self.traffic_area.x2, self.traffic_area.y2):
+                    if self.traffic_greenlight == False:
+                        self.motor_msg = 0
+
+                # 로터리 구간
+                if self.isMissionArea(self.rotary_area.x1, self.rotary_area.y1, self.rotary_area.x2, self.rotary_area.y2):
+                    if self.isMissionArea(self.rotary_stop_area.x1, self.rotary_stop_area.y1, self.rotary_stop_area.x2, self.rotary_stop_area.y2):
+                        if not self.isStopped:
+                            for i in range(1000):
+                                self.publishMotorServoMsg(0, self.servo_msg)
+                                time.sleep(0.001)
+
+                        self.isStopped = True
+
+                    if (self.rt_obstacle_x != 0 or self.rt_obstacle_y != 0):
+                        rt_dis = sqrt(self.rt_obstacle_x ** 2 + self.rt_obstacle_y ** 2)
+                        if (rt_dis < 0.8):
+                            self.motor_msg = self.motor_msg * 0.0
+                        elif (rt_dis < 1.0):
+                            self.motor_msg = self.motor_msg * 0.2
+                        elif (rt_dis < 1.2):
+                            self.motor_msg = self.motor_msg * 0.4
+                
+                # 동적 장애물 구간
+                if self.isMissionArea(self.dynamic_obs_area.x1, self.dynamic_obs_area.y1, self.dynamic_obs_area.x2, self.dynamic_obs_area.y2):
+                    self.motor_msg = 800
+
+                    if  0 < self.dy_obstacle_x < 3 :
+                        self.y_array.append(self.dy_obstacle_y)
+                        if len(self.y_array) >= 7 :
+                            self.y_array.sort()
+                            if(abs(self.y_array[-2] - self.y_array[2]) > 0.1) :
+                                self.is_dynamic = True
+                    else :
+                        self.is_dynamic = False
+                        self.y_array = []
+                    
+                    if self.is_dynamic :
+                        self.publishMotorServoMsg(0, self.servo_msg)
+                        continue
+
+                # 정적 장애물 구간
+
+                       
                 local_path_pub.publish(local_path) ## Local Path 출력
 
-                self.motor_msg = 2000
-
-                # 신호등 구간에 있고 초록불이 아닐경우 속도 0을 보냄
-                if self.is_traffic_road == True and self.traffic_signal == False :
-                    self.motor_msg = 0
-
-
-                self.servo_pub.publish(self.servo_msg)
-                self.motor_pub.publish(self.motor_msg)
-                self.print_info()
+                self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
+                # self.print_info()
             
             if count==300 : ## global path 출력
                 global_path_pub.publish(self.global_path)
                 count=0
             count+=1
+
+           
             
             rate.sleep()
 
@@ -165,15 +275,7 @@ class wecar_planner():
                         "gps",
                         "map")
         self.is_status=True
-        # y -1.8 ~ -2.4
-        # x 6.8 ~ 7.3
-        if 6.8 <= data.position.x <= 7.3 and -2.4 <= data.position.y <= 1.8 :
-            self.is_traffic_road = True
-        else :
-            self.is_traffic_road = False
 
-                    
-        # print(self.status_msg.yaw)
 
     def objectInfoCB(self,data): ## Object information Subscriber
         self.object_num = data.num_of_npcs + data.num_of_obstacle + data.num_of_pedestrian
@@ -206,16 +308,65 @@ class wecar_planner():
 
         # self.is_obj == 필드 위에 객체가 있는지 판단하는 boolean형 변수. self.object_info 리스트에 정보가 있을 때만 True여야 하는데 여기서는 그냥 True를 디폴트값으로 넣어버림. 수정 필요 
         self.is_obj=True
-    
+
+    def calcDistance(self, x, y):
+        dx = self.status_msg.position.x - x
+        dy = self.status_msg.position.y - y
+        distance = sqrt(dx ** 2 + dy ** 2)
+
+        return distance
+
+
+    def isMissionArea(self, x1, y1, x2, y2):
+        if (x1 <= self.status_msg.position.x <= x2) and (y1 <= self.status_msg.position.y <= y2):
+            return True
+        else:
+            return False
+     
+        
+    def isTimetoChangePath(self):
+        second_map_x = 0.527515172958
+        second_map_y = -5.40659809113
+        dis = self.calcDistance(second_map_x, second_map_y)
+
+        if dis < 0.3:
+            return True
+
+ 
     def trafficLightCB(self, data) :    
         # only green light -> go straight
         # green light == 16
-        if  self.is_traffic_road == True and data.trafficLightStatus == 16 : 
-            self.traffic_signal = True
-        else : 
-            self.traffic_signal = False
+        if self.isMissionArea(self.traffic_area.x1, self.traffic_area.y1, self.traffic_area.x2, self.traffic_area.y2):
+            if data.trafficLightStatus == 16 : 
+                self.traffic_greenlight = True
+            else : 
+                self.traffic_greenlight = False
+
+    
+    def rtObstacleCB(self, data):
+        self.rt_obstacle_x = data.x
+        self.rt_obstacle_y = data.y
+        self.rt_obstacle_dis = data.distance
+
+    def dyObstacleCB(self, data):
+        self.dy_obstacle_x = data.x
+        self.dy_obstacle_y = data.y
+        self.dy_obstacle_dis = data.distance
+
+    def stObstacleCB(self, data):
+        self.st_obstacle_list = []
+        self.st_obstacle_x = data.x
+        self.st_obstacle_y = data.y
+        self.st_obstacle_dis = data.distance
+
+        self.st_obstacle_list.append(data.x)
+        self.st_obstacle_list.append(data.y)
+        self.st_obstacle_list.append(data.distance)
 
 
+    def publishMotorServoMsg(self, motor_msg, servo_msg):
+        self.motor_pub.publish(motor_msg)
+        self.servo_pub.publish(servo_msg)
 
 if __name__ == '__main__':
     try:
