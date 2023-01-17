@@ -59,6 +59,7 @@
 #include <dynamic_reconfigure/server.h>
 
 #include <obstacle_detection/hyper_parameterConfig.h>
+#include <obstacle_detection/dyst_hyper_parameterConfig.h>
 #include <obstacle_detection/dy_hyper_parameterConfig.h>
 #include <obstacle_detection/st_hyper_parameterConfig.h>
 #include <obstacle_detection/rt_hyper_parameterConfig.h>

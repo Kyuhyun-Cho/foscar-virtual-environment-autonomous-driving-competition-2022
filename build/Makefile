@@ -2209,32 +2209,6 @@ bond_generate_messages_eus/fast:
 .PHONY : bond_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named pcl_msgs_generate_messages_eus
-
-# Build rule for target.
-pcl_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pcl_msgs_generate_messages_eus
-.PHONY : pcl_msgs_generate_messages_eus
-
-# fast build rule for target.
-pcl_msgs_generate_messages_eus/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
-.PHONY : pcl_msgs_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named dynamic_obstacle
-
-# Build rule for target.
-dynamic_obstacle: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 dynamic_obstacle
-.PHONY : dynamic_obstacle
-
-# fast build rule for target.
-dynamic_obstacle/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build
-.PHONY : dynamic_obstacle/fast
-
-#=============================================================================
 # Target rules for targets named dynamic_reconfigure_generate_messages_nodejs
 
 # Build rule for target.
@@ -2376,6 +2350,45 @@ obstacle_detection_gennodejs: cmake_check_build_system
 obstacle_detection_gennodejs/fast:
 	$(MAKE) -f obstacle_detection/CMakeFiles/obstacle_detection_gennodejs.dir/build.make obstacle_detection/CMakeFiles/obstacle_detection_gennodejs.dir/build
 .PHONY : obstacle_detection_gennodejs/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_obstacle
+
+# Build rule for target.
+dynamic_obstacle: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_obstacle
+.PHONY : dynamic_obstacle
+
+# fast build rule for target.
+dynamic_obstacle/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build
+.PHONY : dynamic_obstacle/fast
+
+#=============================================================================
+# Target rules for targets named pcl_msgs_generate_messages_eus
+
+# Build rule for target.
+pcl_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pcl_msgs_generate_messages_eus
+.PHONY : pcl_msgs_generate_messages_eus
+
+# fast build rule for target.
+pcl_msgs_generate_messages_eus/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
+.PHONY : pcl_msgs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named dyst_obstacle
+
+# Build rule for target.
+dyst_obstacle: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dyst_obstacle
+.PHONY : dyst_obstacle
+
+# fast build rule for target.
+dyst_obstacle/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/dyst_obstacle.dir/build.make obstacle_detection/CMakeFiles/dyst_obstacle.dir/build
+.PHONY : dyst_obstacle/fast
 
 #=============================================================================
 # Target rules for targets named tf_generate_messages_nodejs
@@ -4666,8 +4679,6 @@ help:
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... bond_generate_messages_eus"
-	@echo "... pcl_msgs_generate_messages_eus"
-	@echo "... dynamic_obstacle"
 	@echo "... dynamic_reconfigure_generate_messages_nodejs"
 	@echo "... obstacle_detection_generate_messages_cpp"
 	@echo "... pcl_msgs_generate_messages_cpp"
@@ -4679,6 +4690,9 @@ help:
 	@echo "... dynamic_reconfigure_generate_messages_py"
 	@echo "... tf_generate_messages_lisp"
 	@echo "... obstacle_detection_gennodejs"
+	@echo "... dynamic_obstacle"
+	@echo "... pcl_msgs_generate_messages_eus"
+	@echo "... dyst_obstacle"
 	@echo "... tf_generate_messages_nodejs"
 	@echo "... pcl_msgs_generate_messages_py"
 	@echo "... actionlib_generate_messages_eus"

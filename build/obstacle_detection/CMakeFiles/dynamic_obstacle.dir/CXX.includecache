@@ -40,6 +40,24 @@ dynamic_reconfigure/config_init_mutex.h
 boost/any.hpp
 -
 
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/dyst_hyper_parameterConfig.h
+dynamic_reconfigure/config_tools.h
+-
+limits
+-
+ros/node_handle.h
+-
+dynamic_reconfigure/ConfigDescription.h
+-
+dynamic_reconfigure/ParamDescription.h
+-
+dynamic_reconfigure/Group.h
+-
+dynamic_reconfigure/config_init_mutex.h
+-
+boost/any.hpp
+-
+
 /home/foscar/VEAC_2023/devel/include/obstacle_detection/hyper_parameterConfig.h
 dynamic_reconfigure/config_tools.h
 -
@@ -200,6 +218,8 @@ tf2_geometry_msgs/tf2_geometry_msgs.h
 dynamic_reconfigure/server.h
 -
 obstacle_detection/hyper_parameterConfig.h
+-
+obstacle_detection/dyst_hyper_parameterConfig.h
 -
 obstacle_detection/dy_hyper_parameterConfig.h
 -

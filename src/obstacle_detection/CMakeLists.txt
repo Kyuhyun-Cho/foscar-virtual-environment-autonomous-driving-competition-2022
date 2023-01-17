@@ -117,6 +117,7 @@ generate_messages(
 
 generate_dynamic_reconfigure_options(
   cfg/hyper_parameter.cfg
+  cfg/dyst_hyper_parameter.cfg
   cfg/dy_hyper_parameter.cfg
   cfg/st_hyper_parameter.cfg
   cfg/rt_hyper_parameter.cfg
@@ -152,6 +153,10 @@ include_directories(
 add_executable(clustering src/clustering.cpp)
 target_link_libraries(clustering ${catkin_LIBRARIES})
 add_dependencies(clustering ${PROJECT_NAME}_gencfg)
+
+add_executable(dyst_obstacle src/dyst_obstacle.cpp)
+target_link_libraries(dyst_obstacle ${catkin_LIBRARIES})
+add_dependencies(dyst_obstacle ${PROJECT_NAME}_gencfg)
 
 add_executable(dynamic_obstacle src/dynamic_obstacle.cpp)
 target_link_libraries(dynamic_obstacle ${catkin_LIBRARIES})
