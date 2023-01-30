@@ -3,5 +3,9 @@
   (:export
    "<BOUNDINGBOX>"
    "BOUNDINGBOX"
+   "<OBJECTINFO>"
+   "OBJECTINFO"
+   "<WAYPOINT>"
+   "WAYPOINT"
   ))
 

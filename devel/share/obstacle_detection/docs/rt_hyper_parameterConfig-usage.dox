@@ -1,9 +1,9 @@
 \subsubsection usage Usage
 \verbatim
 <node name="obstacle_detection" pkg="obstacle_detection" type="obstacle_detection">
-  <param name="minPoints" type="int" value="5" />
-  <param name="epsilon" type="double" value="0.7" />
-  <param name="minClusterSize" type="int" value="3" />
+  <param name="minPoints" type="int" value="2" />
+  <param name="epsilon" type="double" value="0.5" />
+  <param name="minClusterSize" type="int" value="2" />
   <param name="maxClusterSize" type="int" value="50" />
   <param name="xMinROI" type="double" value="0.0" />
   <param name="xMaxROI" type="double" value="2.0" />

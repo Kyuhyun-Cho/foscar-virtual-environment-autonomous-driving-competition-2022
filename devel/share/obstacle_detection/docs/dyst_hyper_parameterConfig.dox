@@ -3,7 +3,7 @@
 Reads and maintains the following parameters on the ROS server
 
 - \b "~minPoints" : \b [int] minPoints min: 0, default: 5, max: 100
-- \b "~epsilon" : \b [double] epsilon min: 0.0, default: 0.7, max: 10.0
+- \b "~epsilon" : \b [double] epsilon min: 0.0, default: 0.5, max: 10.0
 - \b "~minClusterSize" : \b [int] minClusterSize min: 0, default: 3, max: 10
 - \b "~maxClusterSize" : \b [int] maxClusterSize min: 10, default: 50, max: 1000
 - \b "~xMinROI" : \b [double] xMinROI min: -30.0, default: 0.0, max: 0.0
@@ -12,10 +12,10 @@ Reads and maintains the following parameters on the ROS server
 - \b "~yMaxROI" : \b [double] yMaxROI min: 0.0, default: 0.5, max: 30.0
 - \b "~zMinROI" : \b [double] zMinROI min: -2.0, default: -1.0, max: 0.0
 - \b "~zMaxROI" : \b [double] zMaxROI min: 0.0, default: 1.0, max: 2.0
-- \b "~xMinBoundingBox" : \b [double] xMinBoundingBox min: 0.0, default: 0.0, max: 1.0
+- \b "~xMinBoundingBox" : \b [double] xMinBoundingBox min: -1.0, default: -1.0, max: 1.0
 - \b "~xMaxBoundingBox" : \b [double] xMaxBoundingBox min: 1.0, default: 10.0, max: 10.0
-- \b "~yMinBoundingBox" : \b [double] yMinBoundingBox min: 0.0, default: 0.0, max: 1.0
+- \b "~yMinBoundingBox" : \b [double] yMinBoundingBox min: -1.0, default: -1.0, max: 1.0
 - \b "~yMaxBoundingBox" : \b [double] yMaxBoundingBox min: 1.0, default: 10.0, max: 10.0
-- \b "~zMinBoundingBox" : \b [double] zMinBoundingBox min: 0.0, default: 0.0, max: 1.0
+- \b "~zMinBoundingBox" : \b [double] zMinBoundingBox min: -1.0, default: -1.0, max: 1.0
 - \b "~zMaxBoundingBox" : \b [double] zMaxBoundingBox min: 0.0, default: 10.0, max: 10.0
 

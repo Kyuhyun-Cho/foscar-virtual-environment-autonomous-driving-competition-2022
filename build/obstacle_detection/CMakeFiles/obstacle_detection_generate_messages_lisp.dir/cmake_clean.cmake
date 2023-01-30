@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/obstacle_detection_generate_messages_lisp"
+  "/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/ObjectInfo.lisp"
   "/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Boundingbox.lisp"
+  "/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Waypoint.lisp"
 )
 
 # Per-language clean rules from dependency scanning.

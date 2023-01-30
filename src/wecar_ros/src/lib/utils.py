@@ -128,13 +128,19 @@ class purePursuit :
     def getPath(self,msg):
         self.path=msg  #nav_msgs/Path 
     
-    def getEgoStatus(self,msg):
-
-        self.current_vel=msg.velocity.x  #kph
-        self.vehicle_yaw=msg.heading/180*pi   # rad
-        self.current_postion.x=msg.position.x
-        self.current_postion.y=msg.position.y
-        self.current_postion.z=msg.position.z
+    def getEgoStatus(self, msg, is_track_path):
+        if is_track_path:
+            self.current_vel=msg.velocity.x  #kph
+            self.vehicle_yaw=0
+            self.current_postion.x=0
+            self.current_postion.y=0
+            self.current_postion.z=0
+        else:
+            self.current_vel=msg.velocity.x  #kph
+            self.vehicle_yaw=msg.heading/180*pi   # rad
+            self.current_postion.x=msg.position.x
+            self.current_postion.y=msg.position.y
+            self.current_postion.z=msg.position.z
 
     def steering_angle(self):
         vehicle_position=self.current_postion
@@ -145,11 +151,11 @@ class purePursuit :
             path_point=i.pose.position
             dx= path_point.x - vehicle_position.x
             dy= path_point.y - vehicle_position.y
-            rotated_point.x=cos(self.vehicle_yaw)*dx +sin(self.vehicle_yaw)*dy
+            rotated_point.x=cos(self.vehicle_yaw)*dx + sin(self.vehicle_yaw)*dy
             rotated_point.y=sin(self.vehicle_yaw)*dx - cos(self.vehicle_yaw)*dy
-            
-            if rotated_point.x>0 :
+            if rotated_point.x > 0 :
                 dis=sqrt(pow(rotated_point.x,2)+pow(rotated_point.y,2))
+                # print(dis, self.lfd)
                 if dis>= self.lfd :
                     
                     self.lfd=self.current_vel / 1.8
@@ -160,14 +166,17 @@ class purePursuit :
                     self.forward_point=path_point
                     self.is_look_forward_point=True
                     break
-        
-        theta=atan2(rotated_point.y,rotated_point.x)
 
+        theta=atan2(rotated_point.y,rotated_point.x)
+        # print("TARGET_X: ", rotated_point.x, "TARGET_Y: ", rotated_point.y)
         if self.is_look_forward_point :
             self.steering=atan2((2*self.vehicle_length*sin(theta)),self.lfd)*180/pi #deg
-            return self.steering 
+            # print(self.steering)
+            return self.steering, path_point.x, path_point.y
         else : 
-            return 0
+            self.steering=atan2((2*self.vehicle_length*sin(theta)),self.lfd)*180/pi
+            # print(self.steering)
+            return self.steering, path_point.x, path_point.y
 
 
 ########################  lattice  ########################

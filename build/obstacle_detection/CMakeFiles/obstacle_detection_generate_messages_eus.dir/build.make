@@ -53,21 +53,35 @@ CMAKE_BINARY_DIR = /home/foscar/VEAC_2023/build
 # Include the progress variables for this target.
 include obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus.dir/progress.make
 
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/ObjectInfo.l
 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Boundingbox.l
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Waypoint.l
 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/manifest.l
 
 
+/home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/ObjectInfo.l: /opt/ros/melodic/lib/geneus/gen_eus.py
+/home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/ObjectInfo.l: /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from obstacle_detection/ObjectInfo.msg"
+	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg
+
 /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Boundingbox.l: /opt/ros/melodic/lib/geneus/gen_eus.py
 /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Boundingbox.l: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating EusLisp code from obstacle_detection/Boundingbox.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp code from obstacle_detection/Boundingbox.msg"
 	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg
 
+/home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Waypoint.l: /opt/ros/melodic/lib/geneus/gen_eus.py
+/home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Waypoint.l: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from obstacle_detection/Waypoint.msg"
+	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg
+
 /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/manifest.l: /opt/ros/melodic/lib/geneus/gen_eus.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating EusLisp manifest code for obstacle_detection"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp manifest code for obstacle_detection"
 	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/geneus/cmake/../../../lib/geneus/gen_eus.py -m -o /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection obstacle_detection sensor_msgs std_msgs geometry_msgs nav_msgs
 
 obstacle_detection_generate_messages_eus: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus
+obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/ObjectInfo.l
 obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Boundingbox.l
+obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Waypoint.l
 obstacle_detection_generate_messages_eus: /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/manifest.l
 obstacle_detection_generate_messages_eus: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus.dir/build.make
 

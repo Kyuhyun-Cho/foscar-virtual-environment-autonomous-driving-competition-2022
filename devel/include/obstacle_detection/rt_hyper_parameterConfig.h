@@ -455,7 +455,7 @@ rt_hyper_parameterConfig::GroupDescription<rt_hyper_parameterConfig::DEFAULT, rt
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.minPoints = 100;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __default__.minPoints = 5;
+      __default__.minPoints = 2;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(rt_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new rt_hyper_parameterConfig::ParamDescription<int>("minPoints", "int", 0, "minPoints", "", &rt_hyper_parameterConfig::minPoints)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
@@ -465,7 +465,7 @@ rt_hyper_parameterConfig::GroupDescription<rt_hyper_parameterConfig::DEFAULT, rt
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.epsilon = 10.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __default__.epsilon = 0.7;
+      __default__.epsilon = 0.5;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(rt_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new rt_hyper_parameterConfig::ParamDescription<double>("epsilon", "double", 0, "epsilon", "", &rt_hyper_parameterConfig::epsilon)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
@@ -475,7 +475,7 @@ rt_hyper_parameterConfig::GroupDescription<rt_hyper_parameterConfig::DEFAULT, rt
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.minClusterSize = 10;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __default__.minClusterSize = 3;
+      __default__.minClusterSize = 2;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(rt_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new rt_hyper_parameterConfig::ParamDescription<int>("minClusterSize", "int", 0, "minClusterSize", "", &rt_hyper_parameterConfig::minClusterSize)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"

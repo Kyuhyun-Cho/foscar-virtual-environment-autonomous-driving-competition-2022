@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/obstacle_detection_generate_messages_cpp"
+  "/home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h"
   "/home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h"
+  "/home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h"
 )
 
 # Per-language clean rules from dependency scanning.

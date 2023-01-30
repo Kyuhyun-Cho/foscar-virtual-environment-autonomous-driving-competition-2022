@@ -1910,19 +1910,6 @@ std_srvs_generate_messages_py/fast:
 .PHONY : std_srvs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named obstacle_detection_genpy
-
-# Build rule for target.
-obstacle_detection_genpy: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 obstacle_detection_genpy
-.PHONY : obstacle_detection_genpy
-
-# fast build rule for target.
-obstacle_detection_genpy/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/obstacle_detection_genpy.dir/build.make obstacle_detection/CMakeFiles/obstacle_detection_genpy.dir/build
-.PHONY : obstacle_detection_genpy/fast
-
-#=============================================================================
 # Target rules for targets named std_srvs_generate_messages_nodejs
 
 # Build rule for target.
@@ -2105,19 +2092,6 @@ nodelet_generate_messages_eus/fast:
 .PHONY : nodelet_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named topic_tools_generate_messages_eus
-
-# Build rule for target.
-topic_tools_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 topic_tools_generate_messages_eus
-.PHONY : topic_tools_generate_messages_eus
-
-# fast build rule for target.
-topic_tools_generate_messages_eus/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/topic_tools_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/topic_tools_generate_messages_eus.dir/build
-.PHONY : topic_tools_generate_messages_eus/fast
-
-#=============================================================================
 # Target rules for targets named dynamic_reconfigure_generate_messages_cpp
 
 # Build rule for target.
@@ -2155,6 +2129,45 @@ std_srvs_generate_messages_eus: cmake_check_build_system
 std_srvs_generate_messages_eus/fast:
 	$(MAKE) -f obstacle_detection/CMakeFiles/std_srvs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/std_srvs_generate_messages_eus.dir/build
 .PHONY : std_srvs_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named dynamic_obstacle
+
+# Build rule for target.
+dynamic_obstacle: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dynamic_obstacle
+.PHONY : dynamic_obstacle
+
+# fast build rule for target.
+dynamic_obstacle/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build
+.PHONY : dynamic_obstacle/fast
+
+#=============================================================================
+# Target rules for targets named dyst_obstacle
+
+# Build rule for target.
+dyst_obstacle: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dyst_obstacle
+.PHONY : dyst_obstacle
+
+# fast build rule for target.
+dyst_obstacle/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/dyst_obstacle.dir/build.make obstacle_detection/CMakeFiles/dyst_obstacle.dir/build
+.PHONY : dyst_obstacle/fast
+
+#=============================================================================
+# Target rules for targets named pcl_msgs_generate_messages_eus
+
+# Build rule for target.
+pcl_msgs_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pcl_msgs_generate_messages_eus
+.PHONY : pcl_msgs_generate_messages_eus
+
+# fast build rule for target.
+pcl_msgs_generate_messages_eus/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
+.PHONY : pcl_msgs_generate_messages_eus/fast
 
 #=============================================================================
 # Target rules for targets named actionlib_msgs_generate_messages_eus
@@ -2246,6 +2259,32 @@ pcl_msgs_generate_messages_cpp: cmake_check_build_system
 pcl_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_cpp.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_cpp.dir/build
 .PHONY : pcl_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named topic_tools_generate_messages_eus
+
+# Build rule for target.
+topic_tools_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 topic_tools_generate_messages_eus
+.PHONY : topic_tools_generate_messages_eus
+
+# fast build rule for target.
+topic_tools_generate_messages_eus/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/topic_tools_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/topic_tools_generate_messages_eus.dir/build
+.PHONY : topic_tools_generate_messages_eus/fast
+
+#=============================================================================
+# Target rules for targets named _obstacle_detection_generate_messages_check_deps_ObjectInfo
+
+# Build rule for target.
+_obstacle_detection_generate_messages_check_deps_ObjectInfo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _obstacle_detection_generate_messages_check_deps_ObjectInfo
+.PHONY : _obstacle_detection_generate_messages_check_deps_ObjectInfo
+
+# fast build rule for target.
+_obstacle_detection_generate_messages_check_deps_ObjectInfo/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_ObjectInfo.dir/build.make obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_ObjectInfo.dir/build
+.PHONY : _obstacle_detection_generate_messages_check_deps_ObjectInfo/fast
 
 #=============================================================================
 # Target rules for targets named bond_generate_messages_nodejs
@@ -2352,45 +2391,6 @@ obstacle_detection_gennodejs/fast:
 .PHONY : obstacle_detection_gennodejs/fast
 
 #=============================================================================
-# Target rules for targets named dynamic_obstacle
-
-# Build rule for target.
-dynamic_obstacle: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 dynamic_obstacle
-.PHONY : dynamic_obstacle
-
-# fast build rule for target.
-dynamic_obstacle/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build.make obstacle_detection/CMakeFiles/dynamic_obstacle.dir/build
-.PHONY : dynamic_obstacle/fast
-
-#=============================================================================
-# Target rules for targets named pcl_msgs_generate_messages_eus
-
-# Build rule for target.
-pcl_msgs_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pcl_msgs_generate_messages_eus
-.PHONY : pcl_msgs_generate_messages_eus
-
-# fast build rule for target.
-pcl_msgs_generate_messages_eus/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build.make obstacle_detection/CMakeFiles/pcl_msgs_generate_messages_eus.dir/build
-.PHONY : pcl_msgs_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named dyst_obstacle
-
-# Build rule for target.
-dyst_obstacle: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 dyst_obstacle
-.PHONY : dyst_obstacle
-
-# fast build rule for target.
-dyst_obstacle/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/dyst_obstacle.dir/build.make obstacle_detection/CMakeFiles/dyst_obstacle.dir/build
-.PHONY : dyst_obstacle/fast
-
-#=============================================================================
 # Target rules for targets named tf_generate_messages_nodejs
 
 # Build rule for target.
@@ -2430,17 +2430,17 @@ actionlib_generate_messages_eus/fast:
 .PHONY : actionlib_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named clustering
+# Target rules for targets named track_obstacle
 
 # Build rule for target.
-clustering: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 clustering
-.PHONY : clustering
+track_obstacle: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 track_obstacle
+.PHONY : track_obstacle
 
 # fast build rule for target.
-clustering/fast:
-	$(MAKE) -f obstacle_detection/CMakeFiles/clustering.dir/build.make obstacle_detection/CMakeFiles/clustering.dir/build
-.PHONY : clustering/fast
+track_obstacle/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/track_obstacle.dir/build.make obstacle_detection/CMakeFiles/track_obstacle.dir/build
+.PHONY : track_obstacle/fast
 
 #=============================================================================
 # Target rules for targets named pcl_msgs_generate_messages_lisp
@@ -2638,6 +2638,32 @@ tf2_msgs_generate_messages_nodejs/fast:
 .PHONY : tf2_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named obstacle_detection_genpy
+
+# Build rule for target.
+obstacle_detection_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 obstacle_detection_genpy
+.PHONY : obstacle_detection_genpy
+
+# fast build rule for target.
+obstacle_detection_genpy/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/obstacle_detection_genpy.dir/build.make obstacle_detection/CMakeFiles/obstacle_detection_genpy.dir/build
+.PHONY : obstacle_detection_genpy/fast
+
+#=============================================================================
+# Target rules for targets named _obstacle_detection_generate_messages_check_deps_Waypoint
+
+# Build rule for target.
+_obstacle_detection_generate_messages_check_deps_Waypoint: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _obstacle_detection_generate_messages_check_deps_Waypoint
+.PHONY : _obstacle_detection_generate_messages_check_deps_Waypoint
+
+# fast build rule for target.
+_obstacle_detection_generate_messages_check_deps_Waypoint/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_Waypoint.dir/build.make obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_Waypoint.dir/build
+.PHONY : _obstacle_detection_generate_messages_check_deps_Waypoint/fast
+
+#=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -2805,6 +2831,19 @@ _obstacle_detection_generate_messages_check_deps_Boundingbox: cmake_check_build_
 _obstacle_detection_generate_messages_check_deps_Boundingbox/fast:
 	$(MAKE) -f obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_Boundingbox.dir/build.make obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_Boundingbox.dir/build
 .PHONY : _obstacle_detection_generate_messages_check_deps_Boundingbox/fast
+
+#=============================================================================
+# Target rules for targets named waypoint_maker
+
+# Build rule for target.
+waypoint_maker: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 waypoint_maker
+.PHONY : waypoint_maker
+
+# fast build rule for target.
+waypoint_maker/fast:
+	$(MAKE) -f obstacle_detection/CMakeFiles/waypoint_maker.dir/build.make obstacle_detection/CMakeFiles/waypoint_maker.dir/build
+.PHONY : waypoint_maker/fast
 
 #=============================================================================
 # Target rules for targets named dynamic_reconfigure_generate_messages_lisp
@@ -4656,7 +4695,6 @@ help:
 	@echo "... rotary_obstacle"
 	@echo "... static_obstacle"
 	@echo "... std_srvs_generate_messages_py"
-	@echo "... obstacle_detection_genpy"
 	@echo "... std_srvs_generate_messages_nodejs"
 	@echo "... nodelet_generate_messages_cpp"
 	@echo "... bond_generate_messages_py"
@@ -4671,10 +4709,12 @@ help:
 	@echo "... topic_tools_generate_messages_cpp"
 	@echo "... nodelet_generate_messages_nodejs"
 	@echo "... nodelet_generate_messages_eus"
-	@echo "... topic_tools_generate_messages_eus"
 	@echo "... dynamic_reconfigure_generate_messages_cpp"
 	@echo "... tf_generate_messages_py"
 	@echo "... std_srvs_generate_messages_eus"
+	@echo "... dynamic_obstacle"
+	@echo "... dyst_obstacle"
+	@echo "... pcl_msgs_generate_messages_eus"
 	@echo "... actionlib_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
@@ -4682,6 +4722,8 @@ help:
 	@echo "... dynamic_reconfigure_generate_messages_nodejs"
 	@echo "... obstacle_detection_generate_messages_cpp"
 	@echo "... pcl_msgs_generate_messages_cpp"
+	@echo "... topic_tools_generate_messages_eus"
+	@echo "... _obstacle_detection_generate_messages_check_deps_ObjectInfo"
 	@echo "... bond_generate_messages_nodejs"
 	@echo "... sensor_msgs_generate_messages_py"
 	@echo "... nodelet_generate_messages_py"
@@ -4690,13 +4732,10 @@ help:
 	@echo "... dynamic_reconfigure_generate_messages_py"
 	@echo "... tf_generate_messages_lisp"
 	@echo "... obstacle_detection_gennodejs"
-	@echo "... dynamic_obstacle"
-	@echo "... pcl_msgs_generate_messages_eus"
-	@echo "... dyst_obstacle"
 	@echo "... tf_generate_messages_nodejs"
 	@echo "... pcl_msgs_generate_messages_py"
 	@echo "... actionlib_generate_messages_eus"
-	@echo "... clustering"
+	@echo "... track_obstacle"
 	@echo "... pcl_msgs_generate_messages_lisp"
 	@echo "... tf_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_nodejs"
@@ -4712,6 +4751,8 @@ help:
 	@echo "... actionlib_generate_messages_py"
 	@echo "... tf2_msgs_generate_messages_py"
 	@echo "... tf2_msgs_generate_messages_nodejs"
+	@echo "... obstacle_detection_genpy"
+	@echo "... _obstacle_detection_generate_messages_check_deps_Waypoint"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... nav_msgs_generate_messages_cpp"
 	@echo "... tf2_msgs_generate_messages_eus"
@@ -4725,6 +4766,7 @@ help:
 	@echo "... obstacle_detection_generate_messages"
 	@echo "... dynamic_reconfigure_generate_messages_eus"
 	@echo "... _obstacle_detection_generate_messages_check_deps_Boundingbox"
+	@echo "... waypoint_maker"
 	@echo "... dynamic_reconfigure_generate_messages_lisp"
 	@echo "... obstacle_detection_gencpp"
 	@echo "... sensor_msgs_generate_messages_nodejs"

@@ -38,7 +38,11 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/obstacle_detection/msg" TYPE FILE FILES "/home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/obstacle_detection/msg" TYPE FILE FILES
+    "/home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg"
+    "/home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg"
+    "/home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg"
+    )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -70,10 +74,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/obstacle_detection" TYPE FILE FILES "/home/foscar/VEAC_2023/devel/include/obstacle_detection/hyper_parameterConfig.h")
-endif()
-
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/obstacle_detection" TYPE FILE FILES "/home/foscar/VEAC_2023/devel/include/obstacle_detection/dyst_hyper_parameterConfig.h")
 endif()
 
@@ -87,6 +87,14 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/obstacle_detection" TYPE FILE FILES "/home/foscar/VEAC_2023/devel/include/obstacle_detection/rt_hyper_parameterConfig.h")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/obstacle_detection" TYPE FILE FILES "/home/foscar/VEAC_2023/devel/include/obstacle_detection/tr_hyper_parameterConfig.h")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/obstacle_detection" TYPE FILE FILES "/home/foscar/VEAC_2023/devel/include/obstacle_detection/wp_hyper_parameterConfig.h")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg"
+messages_str = "/home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg;/home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg;/home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg"
 services_str = ""
 pkg_name = "obstacle_detection"
 dependencies_str = "sensor_msgs;std_msgs;geometry_msgs;nav_msgs"

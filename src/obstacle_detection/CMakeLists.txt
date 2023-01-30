@@ -23,6 +23,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
    FILES
    Boundingbox.msg
+   ObjectInfo.msg
+   Waypoint.msg
 )
 
 generate_messages(
@@ -116,11 +118,12 @@ generate_messages(
 # )
 
 generate_dynamic_reconfigure_options(
-  cfg/hyper_parameter.cfg
   cfg/dyst_hyper_parameter.cfg
   cfg/dy_hyper_parameter.cfg
   cfg/st_hyper_parameter.cfg
   cfg/rt_hyper_parameter.cfg
+  cfg/tr_hyper_parameter.cfg
+  cfg/wp_hyper_parameter.cfg
 )
 
 ###################################
@@ -150,10 +153,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(clustering src/clustering.cpp)
-target_link_libraries(clustering ${catkin_LIBRARIES})
-add_dependencies(clustering ${PROJECT_NAME}_gencfg)
-
 add_executable(dyst_obstacle src/dyst_obstacle.cpp)
 target_link_libraries(dyst_obstacle ${catkin_LIBRARIES})
 add_dependencies(dyst_obstacle ${PROJECT_NAME}_gencfg)
@@ -169,6 +168,16 @@ add_dependencies(static_obstacle ${PROJECT_NAME}_gencfg)
 add_executable(rotary_obstacle src/rotary_obstacle.cpp)
 target_link_libraries(rotary_obstacle ${catkin_LIBRARIES})
 add_dependencies(rotary_obstacle ${PROJECT_NAME}_gencfg)
+
+add_executable(track_obstacle src/track_obstacle.cpp)
+target_link_libraries(track_obstacle ${catkin_LIBRARIES})
+add_dependencies(track_obstacle ${PROJECT_NAME}_gencfg)
+
+add_executable(waypoint_maker src/waypoint_maker.cpp)
+target_link_libraries(waypoint_maker ${catkin_LIBRARIES})
+add_dependencies(waypoint_maker ${PROJECT_NAME}_gencfg)
+
+
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}

@@ -64,11 +64,14 @@ a6613b238990050a79f0f3c03d15a926 /home/foscar/VEAC_2023/devel/include/morai_msgs
 d3661a6a1c0c16b643a72472804a6dfc /home/foscar/VEAC_2023/devel/include/morai_msgs/WaitForTick.h
 3bcf63b4389db6c2041af972920b9c9a /home/foscar/VEAC_2023/devel/include/morai_msgs/WaitForTickResponse.h
 7134d2195959797cf439ba56e2062b18 /home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h
+de4d140f1b388436e3d37b03e9e618bb /home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h
+adcb6d9c2a01b6eb872931640c84aaec /home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h
 6c2d6003ded57ab5df26bce45532c58d /home/foscar/VEAC_2023/devel/include/obstacle_detection/dy_hyper_parameterConfig.h
 17bdcf9285e71c6b8ac0577a47d46bf6 /home/foscar/VEAC_2023/devel/include/obstacle_detection/dyst_hyper_parameterConfig.h
-6266465aa0ae66aab095cba2c0d8d868 /home/foscar/VEAC_2023/devel/include/obstacle_detection/hyper_parameterConfig.h
 d6bdb5e6a6a4c0de6ead5eb14ee9d4fb /home/foscar/VEAC_2023/devel/include/obstacle_detection/rt_hyper_parameterConfig.h
 58aa231be362ed79293aaa6cf4d3b716 /home/foscar/VEAC_2023/devel/include/obstacle_detection/st_hyper_parameterConfig.h
+4d41e7455dfa77bc5d50385c0bc57644 /home/foscar/VEAC_2023/devel/include/obstacle_detection/tr_hyper_parameterConfig.h
+45276c89dbc0e17e7b66e20d83aeb512 /home/foscar/VEAC_2023/devel/include/obstacle_detection/wp_hyper_parameterConfig.h
 c30d393dae5da7ce44833a4e705d4764 /home/foscar/VEAC_2023/devel/include/velodyne_driver/VelodyneNodeConfig.h
 cc0966e0ffd3ecf3e06e7e3742b415d3 /home/foscar/VEAC_2023/devel/include/velodyne_laserscan/VelodyneLaserScanConfig.h
 ef028f5d662779e1d131a2baae8d53d9 /home/foscar/VEAC_2023/devel/include/velodyne_msgs/VelodynePacket.h
@@ -143,6 +146,8 @@ aa8f2650bd00249f4be230e496766bf9 /home/foscar/VEAC_2023/devel/lib/python2.7/dist
 e5954c32b654f5841479f9c6789d4f81 /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/morai_msgs/srv/_PREventSrv.py
 2604d296be273b09a7a3d76674d7c1ce /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/morai_msgs/srv/__init__.py
 2ff79fd3409b1805a81028d23f4efb92 /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection/msg/_Boundingbox.py
+7aca00967cc28d7c30af9b47f2997deb /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection/msg/_ObjectInfo.py
+52e6c4aecc38ccd7f4c989b42f0cb461 /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection/msg/_Waypoint.py
 741221600e0b98a822d8cf07c05f1485 /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/obstacle_detection/msg/__init__.py
 8485885453dc6fd86f1c5d4ec7e84e71 /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/velodyne_msgs/msg/_VelodynePacket.py
 776e4c89b393d186839c8dd873062968 /home/foscar/VEAC_2023/devel/lib/python2.7/dist-packages/velodyne_msgs/msg/_VelodyneScan.py
@@ -215,6 +220,8 @@ fd6d61912be4ebc01bc9300e4bf4770f /home/foscar/VEAC_2023/devel/share/common-lisp/
 5846c03e7b2e5dec526f08a0ee27bbff /home/foscar/VEAC_2023/devel/share/common-lisp/ros/morai_msgs/srv/MoraiWaitForTickSrv.lisp
 76979d6f706b4c733503481885d38a8a /home/foscar/VEAC_2023/devel/share/common-lisp/ros/morai_msgs/srv/PREventSrv.lisp
 9f1af9f6039dcd004fadd65c706ce2aa /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Boundingbox.lisp
+2041e51737f167a34ba407f9383ae474 /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/ObjectInfo.lisp
+3e349060e1990af360bb01cb00503795 /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Waypoint.lisp
 b12b6e8fdd1d7fc39c02950905a9ab5e /home/foscar/VEAC_2023/devel/share/common-lisp/ros/velodyne_msgs/msg/VelodynePacket.lisp
 181ff771109a48d0dd5519b8e470a7b3 /home/foscar/VEAC_2023/devel/share/common-lisp/ros/velodyne_msgs/msg/VelodyneScan.lisp
 056e3c3d7042a87b7143c540bb67ce2f /home/foscar/VEAC_2023/devel/share/common-lisp/ros/vesc_msgs/msg/VescState.lisp
@@ -284,6 +291,8 @@ da2afbe9724504520277ba4efee81656 /home/foscar/VEAC_2023/devel/share/gennodejs/ro
 5a3b24dbcc4d69785ef45da4df22c59d /home/foscar/VEAC_2023/devel/share/gennodejs/ros/morai_msgs/srv/MoraiWaitForTickSrv.js
 0b67b56c79c1fb6ac1cee5ff20479519 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/morai_msgs/srv/PREventSrv.js
 419dc126dc6690414a2ed7047fc10855 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Boundingbox.js
+b610dca865b08eae7dc9c9ff1cc7ae45 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/ObjectInfo.js
+1eb204e3e275cecb0e4bc3ecdda85838 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Waypoint.js
 c1e94fbc5fe64fbe7688256c37b03acb /home/foscar/VEAC_2023/devel/share/gennodejs/ros/velodyne_msgs/msg/VelodynePacket.js
 29334c92a94a42022e662f34a373a336 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/velodyne_msgs/msg/VelodyneScan.js
 14be3bc48de7ec81be2ce4ab4ea6c3dc /home/foscar/VEAC_2023/devel/share/gennodejs/ros/vesc_msgs/msg/VescState.js
@@ -355,6 +364,8 @@ ef99d392d125ccc0854ba34975ea93f3 /home/foscar/VEAC_2023/devel/share/roseus/ros/m
 da46d53d061204d2941ec1c67cfa8bc0 /home/foscar/VEAC_2023/devel/share/roseus/ros/morai_msgs/srv/PREventSrv.l
 05b692e19a8ad32597837aec17106954 /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/manifest.l
 0389942bbafd3fe78966efab9a4b4377 /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Boundingbox.l
+fafc2cc344e29517fbda80211627ebfd /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/ObjectInfo.l
+e6a24b5777d47e4eadfca00758dcc091 /home/foscar/VEAC_2023/devel/share/roseus/ros/obstacle_detection/msg/Waypoint.l
 6b1caad326c3a47d64a6578bd812539f /home/foscar/VEAC_2023/devel/share/roseus/ros/velodyne_msgs/manifest.l
 7e5d9785c8212fddce85a6bd36e3dfc6 /home/foscar/VEAC_2023/devel/share/roseus/ros/velodyne_msgs/msg/VelodynePacket.l
 56c37a56d5828aaef0d2beaaf7b1e3f2 /home/foscar/VEAC_2023/devel/share/roseus/ros/velodyne_msgs/msg/VelodyneScan.l
@@ -433,6 +444,8 @@ d5a2214ceca0acfa8749df54c09ec657 morai_msgs/CMakeFiles/_morai_msgs_generate_mess
 705dfbd60d0c3bcfde9a574418144cd5 morai_msgs/CMakeFiles/morai_msgs_generate_messages_nodejs
 705dfbd60d0c3bcfde9a574418144cd5 morai_msgs/CMakeFiles/morai_msgs_generate_messages_py
 61ee0c37e3aa26656d8211bbfc19cf53 obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_Boundingbox
+f96d7e6ce6063032d8a58cb792697ca5 obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_ObjectInfo
+3ee01a8f2c8f2fb92d89dc17565f7724 obstacle_detection/CMakeFiles/_obstacle_detection_generate_messages_check_deps_Waypoint
 3129c4aaf62f52666025cc5e7f572274 obstacle_detection/CMakeFiles/obstacle_detection_gencfg
 3129c4aaf62f52666025cc5e7f572274 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp
 3129c4aaf62f52666025cc5e7f572274 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_eus

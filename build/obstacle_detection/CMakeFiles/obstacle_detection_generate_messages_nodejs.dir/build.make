@@ -53,16 +53,30 @@ CMAKE_BINARY_DIR = /home/foscar/VEAC_2023/build
 # Include the progress variables for this target.
 include obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_nodejs.dir/progress.make
 
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_nodejs: /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/ObjectInfo.js
 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_nodejs: /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Boundingbox.js
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_nodejs: /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Waypoint.js
 
+
+/home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/ObjectInfo.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
+/home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/ObjectInfo.js: /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from obstacle_detection/ObjectInfo.msg"
+	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg
 
 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Boundingbox.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
 /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Boundingbox.js: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Javascript code from obstacle_detection/Boundingbox.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Javascript code from obstacle_detection/Boundingbox.msg"
 	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg
 
+/home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Waypoint.js: /opt/ros/melodic/lib/gennodejs/gen_nodejs.py
+/home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Waypoint.js: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Javascript code from obstacle_detection/Waypoint.msg"
+	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg
+
 obstacle_detection_generate_messages_nodejs: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_nodejs
+obstacle_detection_generate_messages_nodejs: /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/ObjectInfo.js
 obstacle_detection_generate_messages_nodejs: /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Boundingbox.js
+obstacle_detection_generate_messages_nodejs: /home/foscar/VEAC_2023/devel/share/gennodejs/ros/obstacle_detection/msg/Waypoint.js
 obstacle_detection_generate_messages_nodejs: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_nodejs.dir/build.make
 
 .PHONY : obstacle_detection_generate_messages_nodejs

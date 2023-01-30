@@ -4,8 +4,10 @@
 import sys,os
 import rospy
 from nav_msgs.msg import Path
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, Bool
 from geometry_msgs.msg import Point
+from visualization_msgs.msg import Marker
+
 from morai_msgs.msg import EgoVehicleStatus, GetTrafficLightStatus
 from lib.utils import pathReader,findLocalPath,purePursuit,latticePlanner
 from obstacle_detection.msg import Boundingbox
@@ -29,8 +31,10 @@ class wecar_planner():
         self.path_name=arg[1]
 
         # Publisher
-        global_path_pub= rospy.Publisher('/global_path',Path, queue_size=1) ## global_path publisher 
-        local_path_pub= rospy.Publisher('/local_path',Path, queue_size=1) ## local_path publisher
+        self.global_path_pub= rospy.Publisher('/global_path', Path, queue_size=1) ## global_path publisher 
+        self.local_path_pub= rospy.Publisher('/local_path', Path, queue_size=1) ## local_path publisher
+        self.target_waypoint_pub = rospy.Publisher('/target_waypoint', Marker, queue_size=1)
+    
         self.motor_pub = rospy.Publisher('commands/motor/speed',Float64, queue_size=1)
         self.servo_pub = rospy.Publisher('commands/servo/position',Float64, queue_size=1)
         ########################  lattice  ########################
@@ -39,15 +43,20 @@ class wecar_planner():
         ########################  lattice  ########################
         
         # Subscriber
-        rospy.Subscriber("/Ego_topic", EgoVehicleStatus, self.statusCB) ## Vehicl Status Subscriber 
+        rospy.Subscriber("/Ego_topic", EgoVehicleStatus, self.statusCB) ## Vehicle Status Subscriber 
         rospy.Subscriber("/GetTrafficLightStatus", GetTrafficLightStatus, self.trafficLightCB) ## TrafficLight
         rospy.Subscriber("/rt_obs_position", Boundingbox, self.rtObstacleCB)
         rospy.Subscriber("/dyst_obs_position", Boundingbox, self.dystObstacleCB)
+
+        rospy.Subscriber("/is_track_path", Bool, self.isTrackPathCB)
+        rospy.Subscriber("/track_path", Path, self.trackPathCB)
    
 
         self.is_status=False ## WeBot 상태 점검
         self.is_obj=False ## 장애물 상태 점검
         self.steering_angle_to_servo_offset=0.5 ## servo moter offset
+        self.target_x = 0
+        self.target_y = 0
         self.rpm_gain = 4616
         self.motor_msg=Float64()
         self.servo_msg=Float64()
@@ -55,10 +64,13 @@ class wecar_planner():
 
         # Mission Area Point FORMAT: min_x, min_y, max_x, max_y
         self.traffic_area = Point(6.85, -2.5, 7.5, -1.95)
-        self.rotary_area = Point(10.0, -2.7, 15.57, 3.25)
-        self.rotary_stop_area = Point(12.1, 1.6, 12.8, 2.0)
-        self.dynamic_obs_area = Point(1.3, 4.0, 6.73, 5.72)
+        self.rotary_area = Point(10.0, -2.7, 15.57, 3.5)
+        self.rotary_stop_area = Point(12.1, 1.8, 12.8, 2.2) # 좀 뒤로 미룰 필요 있음
+        self.dynamic_obs_area = Point(1.72, 4.0, 6.73, 5.72)
         self.static_obs_area = Point(-13.66, -5.74, -6.71, -4.65)
+        self.track_area = Point(-20.00, -6.00, -12.50, 6.00)
+        self.track_area_2 = Point(-13.50, 4.50, -7.00, 6.00)
+
 
 
         # Traffic Mission Parameter
@@ -69,7 +81,7 @@ class wecar_planner():
         self.rt_obstacle_x = 0
         self.rt_obstacle_y = 0
         self.rt_obstacle_dis = 0
-        self.isStopped = False
+        self.is_rotary_stopped = False
 
 
         # Dynamic & Static Obstacle Mission Parameter
@@ -85,6 +97,12 @@ class wecar_planner():
 
         self.current_lane = 1
 
+        # Track Mission Paraemter
+        self.is_track_path = False
+        self.track_path = Path()
+        self.is_track_stopped = False
+        self.track_motor_msg = 0
+
         # Class
         path_reader=pathReader('wecar_ros') ## 경로 파일의 위치
         pure_pursuit=purePursuit() ## purePursuit import
@@ -98,9 +116,8 @@ class wecar_planner():
         count = 0
         rate = rospy.Rate(30) # 30hz
                                            
-        #  0 1 2> 총 3개의 lattice 중 가운데 lattice == 1
+        #  0 1 2 -> 총 3개의 lattice 중 가운데 lattice == 1
         lattice_current_lane = 1
-
         while not rospy.is_shutdown():
             if self.is_status==True: ## WeBot 상태, 장애물 상태 점검
 
@@ -140,9 +157,9 @@ class wecar_planner():
                 ########################  lattice  ########################
 
                 pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
-                pure_pursuit.getEgoStatus(self.status_msg) ## pure_pursuit 알고리즘에 WeBot status 적용
+                pure_pursuit.getEgoStatus(self.status_msg, self.is_track_path) ## pure_pursuit 알고리즘에 WeBot status 적용
 
-                self.steering=pure_pursuit.steering_angle()
+                self.steering, self.target_x, self.target_y = pure_pursuit.steering_angle()
         
 
                 # 조향 값 확인 : rostopic echo /sensors/servo_position_command -> data
@@ -169,48 +186,69 @@ class wecar_planner():
                 elif servo_degree > 0.1:
                     self.motor_msg = 1300
                 else: self.motor_msg = 2500 # 2500
+
                 
-                # 신호등 구간
-                if self.isMissionArea(self.traffic_area.x1, self.traffic_area.y1, self.traffic_area.x2, self.traffic_area.y2):
-                    if self.traffic_greenlight == False:
-                        self.motor_msg = 0
+                ################################################################ 트랙 구간 ################################################################
+                if self.isMissionArea(self.track_area.x1, self.track_area.y1, self.track_area.x2, self.track_area.y2) or self.isMissionArea(self.track_area_2.x1, self.track_area_2.y1, self.track_area_2.x2, self.track_area_2.y2):
+                    if self.is_track_path:  
+                        local_path = self.track_path
+                        self.local_path_pub.publish(local_path)
+                        self.visualizeTargetPoint(self.target_x, self.target_y)
+                        
+                        if self.track_motor_msg > 990:
+                            self.track_motor_msg = 990
+                        self.motor_msg = self.track_motor_msg + 10
+                        self.track_motor_msg = self.motor_msg
+                        # print("TRACK SPEED: ", self.track_motor_msg)
 
 
-                # 로터리 구간
-                if self.isMissionArea(self.rotary_area.x1, self.rotary_area.y1, self.rotary_area.x2, self.rotary_area.y2):
-                    if self.isMissionArea(self.rotary_stop_area.x1, self.rotary_stop_area.y1, self.rotary_stop_area.x2, self.rotary_stop_area.y2):
-                        if not self.isStopped:
-                            for i in range(1000):
-                                self.publishMotorServoMsg(0, self.servo_msg)
-                                time.sleep(0.001)
+                        pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
+                        pure_pursuit.getEgoStatus(self.status_msg, self.is_track_path) ## pure_pursuit 알고리즘에 WeBot status 적용
 
-                        self.isStopped = True
+                        self.steering, self.target_x, self.target_y = pure_pursuit.steering_angle()
+                        self.servo_msg = self.steering * 0.021 + self.steering_angle_to_servo_offset
+                        
+                        # if not self.is_track_stopped:
+                        #     for i in range(1000):
+                        #         self.local_path_pub.publish(local_path)
+                        #         self.visualizeTargetPoint(self.target_x, self.target_y)
+                        #         self.publishMotorServoMsg(0, self.servo_msg)
+                        #         time.sleep(0.001)
+                            
+                        #     self.is_track_stopped = True
+                        #     continue
+                        
+                        # if self.target_x == 0 and self.target_y == 0:
+                        #     self.publishMotorServoMsg(0, self.servo_msg)
+                        # else:
 
-                    if (self.rt_obstacle_x != 0 or self.rt_obstacle_y != 0):
-                        rt_dis = sqrt(self.rt_obstacle_x ** 2 + self.rt_obstacle_y ** 2)
-                        if (rt_dis < 0.8):
-                            self.motor_msg = self.motor_msg * 0.0
-                        elif (rt_dis < 1.0):
-                            self.motor_msg = self.motor_msg * 0.2
-                        elif (rt_dis < 1.2):
-                            self.motor_msg = self.motor_msg * 0.4
+                        self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
+
+                        # self.local_path_pub.publish(local_path)
+                        self.visualizeTargetPoint(self.target_x, self.target_y)
+                        
+                        rate.sleep()
+                        continue
+                ################################################################ 트랙 구간 ################################################################
 
 
-                # 동적 + 정적 장애물 구간
+
+                ######################################################### 동적 + 정적 장애물 구간 #########################################################
                 if (self.isMissionArea(self.dynamic_obs_area.x1, self.dynamic_obs_area.y1, self.dynamic_obs_area.x2, self.dynamic_obs_area.y2) or 
                     self.isMissionArea(self.static_obs_area.x1, self.static_obs_area.y1, self.static_obs_area.x2, self.static_obs_area.y2)):
                     self.motor_msg = 800
-                    if 0.5 < self.obstacle_x < 0.9 and self.finish_detection == False :
+                    if 0.5 < self.obstacle_x < 1.0 and self.finish_detection == False :
                         self.publishMotorServoMsg(0, self.servo_msg)
                         self.obstacle_y_list.append(self.obstacle_y)
-                    
-                        if len(self.obstacle_y_list) == 300 and self.finish_detection == False :
+                        # print("우선 멈춤")
+                        if len(self.obstacle_y_list) == 400 and self.finish_detection == False :
                             self.finish_detection = True
                             self.obstacle_y_list.sort()
-                            print(self.obstacle_y_list)
-                            if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.2 :
+                            # print(self.obstacle_y_list)
+                            print(abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]))
+                            if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.08 :
                                 self.is_dynamic= True
-                            elif (-0.1 <= self.obstacle_y_list[0] <= 0.1 and -0.1 <= self.obstacle_y_list[-1] <= 0.1):
+                            elif (-0.15 <= self.obstacle_y_list[0] <= 0.15 and -0.15 <= self.obstacle_y_list[-1] <= 0.15):
                                 self.is_static = True
                         continue
 
@@ -218,6 +256,7 @@ class wecar_planner():
                         if -0.25 < self.obstacle_y < 0.25 :
                             self.publishMotorServoMsg(0, self.servo_msg)
                             self.obstacle_y_list = []
+                            print("동적 멈춤")
                             continue
                         else :
                             self.is_dynamic = False
@@ -232,13 +271,14 @@ class wecar_planner():
                             elif self.current_lane == 0:
                                 self.current_lane = 1
                                 local_path = lattice_path[self.current_lane]
-
-                            while( abs(self.status_msg.position.y - lattice_path[self.current_lane].poses[-1].pose.position.y) > 0.42):
-                                pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
-                                pure_pursuit.getEgoStatus(self.status_msg) ## pure_pursuit 알고리즘에 WeBot status 적용
-                                self.steering=pure_pursuit.steering_angle()
-                                self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset
-                                self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
+                            # print(abs(self.status_msg.position.y - lattice_path[self.current_lane].poses[-1].pose.position.y))
+                            # while( abs(self.status_msg.position.y - lattice_path[self.current_lane].poses[-1].pose.position.y) > 0.39):
+                            #     pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
+                            #     pure_pursuit.getEgoStatus(self.status_msg) ## pure_pursuit 알고리즘에 WeBot status 적용
+                            #     self.steering=pure_pursuit.steering_angle()
+                            #     self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset
+                            #     self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
+                            #     print("정적 경로변경중")
                             self.is_static = False
                             self.obstacle_y_list = []
                             continue
@@ -248,16 +288,55 @@ class wecar_planner():
                     if self.obstacle_x < 0.5 :
                         self.finish_detection = False
                         self.obstacle_y_list = []
-    
-                # Local Path 출력
-                local_path_pub.publish(local_path)
+                ######################################################### 동적 + 정적 장애물 구간 #########################################################
 
+
+
+                ############################################################### 신호등 구간 ###############################################################
+                if self.isMissionArea(self.traffic_area.x1, self.traffic_area.y1, self.traffic_area.x2, self.traffic_area.y2):
+                    if self.traffic_greenlight == False:
+                        self.motor_msg = 0
+
+                    # 브레이크 Flag 초기화    
+                    self.is_track_stopped = False
+                    self.is_rotary_stopped = False
+                    self.track_motor_msg = 100
+                ############################################################### 신호등 구간 ###############################################################
+
+
+
+                ############################################################### 로터리 구간 ###############################################################         
+                if self.isMissionArea(self.rotary_area.x1, self.rotary_area.y1, self.rotary_area.x2, self.rotary_area.y2):
+                    self.motor_msg = 1000
+                    if self.isMissionArea(self.rotary_stop_area.x1, self.rotary_stop_area.y1, self.rotary_stop_area.x2, self.rotary_stop_area.y2):
+                        if not self.is_rotary_stopped:
+                            for i in range(1000):
+                                self.publishMotorServoMsg(0, self.servo_msg)
+                                time.sleep(0.001)
+
+                            self.is_rotary_stopped = True
+
+                    if (self.rt_obstacle_x != 0 or self.rt_obstacle_y != 0):
+                        rt_dis = sqrt(self.rt_obstacle_x ** 2 + self.rt_obstacle_y ** 2)
+                        if (rt_dis < 1.0):
+                            self.motor_msg = self.motor_msg * 0.0
+                        elif (1.0 <= rt_dis < 1.2):
+                            self.motor_msg = self.motor_msg * 0.2
+                        elif (1.2 <= rt_dis < 1.4):
+                            self.motor_msg = self.motor_msg * 0.4
+                ############################################################### 로터리 구간 ###############################################################
+
+
+
+                # Local Path 출력
+                self.local_path_pub.publish(local_path)
+                self.visualizeTargetPoint(self.target_x, self.target_y)
                 self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
                 # self.print_info()
             
             # global path 출력
             if count==300 : 
-                global_path_pub.publish(self.global_path)
+                self.global_path_pub.publish(self.global_path)
                 count=0
             count+=1
             
@@ -280,7 +359,7 @@ class wecar_planner():
         print('current waypoint : {} '.format(self.current_waypoint))
 
 
-    def statusCB(self,data): ## Vehicl Status Subscriber 
+    def statusCB(self,data): ## Vehicle Status Subscriber 
         self.status_msg=data
         br = tf.TransformBroadcaster()
         br.sendTransform((self.status_msg.position.x, self.status_msg.position.y, self.status_msg.position.z),
@@ -335,10 +414,44 @@ class wecar_planner():
         self.obstacle_dis = data.distance
 
 
+    def isTrackPathCB(self, data):
+        self.is_track_path = data.data
+        if self.isMissionArea(self.track_area.x1, self.track_area.y1, self.track_area.x2, self.track_area.y2) or self.isMissionArea(self.track_area_2.x1, self.track_area_2.y1, self.track_area_2.x2, self.track_area_2.y2):
+            if self.is_track_path:
+                self.is_track_path = True
+        else:
+            self.is_track_path = False
+
+
+    def trackPathCB(self, data):
+        self.track_path = data 
+
+
     def publishMotorServoMsg(self, motor_msg, servo_msg):
         self.motor_pub.publish(motor_msg)
         self.servo_pub.publish(servo_msg)
 
+
+    def visualizeTargetPoint(self, x, y):
+        # print(x, y)
+        target_waypoint = Marker()
+        target_waypoint.header.frame_id = "/velodyne"
+        target_waypoint.id = 1001
+        target_waypoint.type = target_waypoint.SPHERE
+        target_waypoint.action = target_waypoint.ADD
+        target_waypoint.scale.x = 0.1
+        target_waypoint.scale.y = 0.1
+        target_waypoint.scale.z = 0.1
+        target_waypoint.color.a = 1.0
+        target_waypoint.color.r = 0.6
+        target_waypoint.color.g = 0.7
+        target_waypoint.color.b = 0.8
+        target_waypoint.pose.orientation.w = 1.0
+        target_waypoint.pose.position.x = x
+        target_waypoint.pose.position.y = y
+        target_waypoint.pose.position.z = 0.0
+        target_waypoint.lifetime = rospy.Duration(0.1)
+        self.target_waypoint_pub.publish(target_waypoint)
 
 if __name__ == '__main__':
     try:

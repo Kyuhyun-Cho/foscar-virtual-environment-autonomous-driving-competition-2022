@@ -50,6 +50,7 @@
 
 #include <std_msgs/Bool.h>
 #include <std_msgs/Float64.h>
+#include <morai_msgs/EgoVehicleStatus.h>
 
 #include <laser_geometry/laser_geometry.h>
 #include <ros/assert.h>
@@ -58,13 +59,16 @@
 
 #include <dynamic_reconfigure/server.h>
 
-#include <obstacle_detection/hyper_parameterConfig.h>
 #include <obstacle_detection/dyst_hyper_parameterConfig.h>
 #include <obstacle_detection/dy_hyper_parameterConfig.h>
 #include <obstacle_detection/st_hyper_parameterConfig.h>
 #include <obstacle_detection/rt_hyper_parameterConfig.h>
+#include <obstacle_detection/tr_hyper_parameterConfig.h>
+#include <obstacle_detection/wp_hyper_parameterConfig.h>
 
 #include "obstacle_detection/Boundingbox.h"
+#include "obstacle_detection/ObjectInfo.h"
+#include "obstacle_detection/Waypoint.h"
 
 
 #endif // HEADER_H

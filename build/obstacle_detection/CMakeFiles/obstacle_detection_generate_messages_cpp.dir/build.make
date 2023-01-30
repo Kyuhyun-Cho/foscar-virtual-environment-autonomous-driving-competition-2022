@@ -53,17 +53,33 @@ CMAKE_BINARY_DIR = /home/foscar/VEAC_2023/build
 # Include the progress variables for this target.
 include obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp.dir/progress.make
 
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp: /home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h
 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp: /home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp: /home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h
 
+
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h: /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h: /opt/ros/melodic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from obstacle_detection/ObjectInfo.msg"
+	cd /home/foscar/VEAC_2023/src/obstacle_detection && /home/foscar/VEAC_2023/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/include/obstacle_detection -e /opt/ros/melodic/share/gencpp/cmake/..
 
 /home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
 /home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg
 /home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h: /opt/ros/melodic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from obstacle_detection/Boundingbox.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from obstacle_detection/Boundingbox.msg"
 	cd /home/foscar/VEAC_2023/src/obstacle_detection && /home/foscar/VEAC_2023/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/include/obstacle_detection -e /opt/ros/melodic/share/gencpp/cmake/..
 
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h: /opt/ros/melodic/lib/gencpp/gen_cpp.py
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg
+/home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h: /opt/ros/melodic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from obstacle_detection/Waypoint.msg"
+	cd /home/foscar/VEAC_2023/src/obstacle_detection && /home/foscar/VEAC_2023/build/catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/include/obstacle_detection -e /opt/ros/melodic/share/gencpp/cmake/..
+
 obstacle_detection_generate_messages_cpp: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp
+obstacle_detection_generate_messages_cpp: /home/foscar/VEAC_2023/devel/include/obstacle_detection/ObjectInfo.h
 obstacle_detection_generate_messages_cpp: /home/foscar/VEAC_2023/devel/include/obstacle_detection/Boundingbox.h
+obstacle_detection_generate_messages_cpp: /home/foscar/VEAC_2023/devel/include/obstacle_detection/Waypoint.h
 obstacle_detection_generate_messages_cpp: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_cpp.dir/build.make
 
 .PHONY : obstacle_detection_generate_messages_cpp

@@ -1,0 +1,12 @@
+\subsubsection usage Usage
+\verbatim
+<node name="obstacle_detection" pkg="obstacle_detection" type="obstacle_detection">
+  <param name="xMinRubberCone" type="double" value="0.0" />
+  <param name="xMaxRubberCone" type="double" value="2.0" />
+  <param name="yMinRubberCone" type="double" value="0.0" />
+  <param name="yMaxRubberCone" type="double" value="2.0" />
+  <param name="zMinRubberCone" type="double" value="-1.0" />
+  <param name="zMaxRubberCone" type="double" value="2.0" />
+</node>
+\endverbatim
+

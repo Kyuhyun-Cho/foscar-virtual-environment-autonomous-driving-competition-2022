@@ -53,16 +53,30 @@ CMAKE_BINARY_DIR = /home/foscar/VEAC_2023/build
 # Include the progress variables for this target.
 include obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_lisp.dir/progress.make
 
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_lisp: /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/ObjectInfo.lisp
 obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_lisp: /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Boundingbox.lisp
+obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_lisp: /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Waypoint.lisp
 
+
+/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/ObjectInfo.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
+/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/ObjectInfo.lisp: /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from obstacle_detection/ObjectInfo.msg"
+	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/ObjectInfo.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg
 
 /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Boundingbox.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
 /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Boundingbox.lisp: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Lisp code from obstacle_detection/Boundingbox.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from obstacle_detection/Boundingbox.msg"
 	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Boundingbox.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg
 
+/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Waypoint.lisp: /opt/ros/melodic/lib/genlisp/gen_lisp.py
+/home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Waypoint.lisp: /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/foscar/VEAC_2023/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from obstacle_detection/Waypoint.msg"
+	cd /home/foscar/VEAC_2023/build/obstacle_detection && ../catkin_generated/env_cached.sh /usr/bin/python2 /opt/ros/melodic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/foscar/VEAC_2023/src/obstacle_detection/msg/Waypoint.msg -Iobstacle_detection:/home/foscar/VEAC_2023/src/obstacle_detection/msg -Isensor_msgs:/opt/ros/melodic/share/sensor_msgs/cmake/../msg -Istd_msgs:/opt/ros/melodic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/melodic/share/geometry_msgs/cmake/../msg -Inav_msgs:/opt/ros/melodic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/melodic/share/actionlib_msgs/cmake/../msg -p obstacle_detection -o /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg
+
 obstacle_detection_generate_messages_lisp: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_lisp
+obstacle_detection_generate_messages_lisp: /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/ObjectInfo.lisp
 obstacle_detection_generate_messages_lisp: /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Boundingbox.lisp
+obstacle_detection_generate_messages_lisp: /home/foscar/VEAC_2023/devel/share/common-lisp/ros/obstacle_detection/msg/Waypoint.lisp
 obstacle_detection_generate_messages_lisp: obstacle_detection/CMakeFiles/obstacle_detection_generate_messages_lisp.dir/build.make
 
 .PHONY : obstacle_detection_generate_messages_lisp

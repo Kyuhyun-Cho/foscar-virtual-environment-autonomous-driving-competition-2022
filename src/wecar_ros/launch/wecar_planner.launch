@@ -1,14 +1,15 @@
 <launch>
         <!-- args = "(추종할 경로 이름)" -->
-	<node pkg="wecar_ros" type="wecar_planner.py" name="planner" args="second" output="screen" />
+	<node pkg="wecar_ros" type="wecar_planner.py" name="planner" args="second" output="screen"/>
         <node pkg="obstacle_detection" type="rotary_obstacle" name="rotary_obstacle"/>
         <node pkg="obstacle_detection" type="dyst_obstacle" name="dyst_obstacle"/>
         <node pkg="obstacle_detection" type="dynamic_obstacle" name="dynamic_obstacle"/>
         <node pkg="obstacle_detection" type="static_obstacle" name="static_obstacle"/>
+        <node pkg="obstacle_detection" type="track_obstacle" name="track_obstacle"/>
+        <node pkg="obstacle_detection" type="waypoint_maker" name="waypoint_maker" output="screen"/>
+        <node pkg="obstacle_detection" type="drawing_path.py" name="drawing_path"/>
         <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wecar_ros)/rviz/planner.rviz" /> -->
         <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find obstacle_detection)/rviz/rotary_obstacle.rviz" /> -->
-        <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find obstacle_detection)/rviz/dynamic_obstacle.rviz" /> -->
-        <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find obstacle_detection)/rviz/static_obstacle.rviz" /> -->
-        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find obstacle_detection)/rviz/dyst_obstacle.rviz" />
-
+        <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find obstacle_detection)/rviz/dyst_obstacle.rviz" /> -->
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find obstacle_detection)/rviz/track_path.rviz" />
 </launch>

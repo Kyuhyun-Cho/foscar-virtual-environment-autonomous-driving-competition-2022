@@ -465,7 +465,7 @@ dy_hyper_parameterConfig::GroupDescription<dy_hyper_parameterConfig::DEFAULT, dy
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.epsilon = 10.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __default__.epsilon = 0.7;
+      __default__.epsilon = 0.5;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(dy_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new dy_hyper_parameterConfig::ParamDescription<double>("epsilon", "double", 0, "epsilon", "", &dy_hyper_parameterConfig::epsilon)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
