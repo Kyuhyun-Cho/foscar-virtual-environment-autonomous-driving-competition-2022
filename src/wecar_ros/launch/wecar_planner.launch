@@ -1,6 +1,6 @@
 <launch>
         <!-- args = "(추종할 경로 이름)" -->
-	<node pkg="wecar_ros" type="wecar_planner.py" name="planner" args="second" output="screen"/>
+	<node pkg="wecar_ros" type="wecar_planner.py" name="planner" args="global_path" output="screen"/>
         <node pkg="obstacle_detection" type="rotary_obstacle" name="rotary_obstacle"/>
         <node pkg="obstacle_detection" type="dyst_obstacle" name="dyst_obstacle"/>
         <node pkg="obstacle_detection" type="dynamic_obstacle" name="dynamic_obstacle"/>
