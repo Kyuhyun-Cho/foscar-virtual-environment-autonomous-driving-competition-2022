@@ -208,7 +208,7 @@ def latticePlanner(ref_path, vehicle_status, current_lane):
         local_ego_vehicle_position=det_t.dot(world_ego_vehicle_position)
 
         # lattice 간격
-        lane_off_set=[0.4, 0, -0.4]
+        lane_off_set=[0.35, 0, -0.35]
         # lane_off_set=[0.35, 0, -0.35]
         local_lattice_points=[]
 

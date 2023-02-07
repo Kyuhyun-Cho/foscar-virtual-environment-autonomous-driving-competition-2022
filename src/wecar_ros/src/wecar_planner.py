@@ -65,11 +65,11 @@ class wecar_planner():
         # Mission Area Point FORMAT: min_x, min_y, max_x, max_y
         self.traffic_area = Point(6.85, -2.5, 7.5, -1.95)
         self.rotary_area = Point(10.0, -2.7, 15.57, 3.5)
-        self.rotary_stop_area = Point(12.1, 1.8, 12.8, 2.2) # 좀 뒤로 미룰 필요 있음
-        self.dynamic_obs_area = Point(1.72, 4.0, 6.73, 5.72)
-        self.static_obs_area = Point(-13.66, -5.74, -6.71, -4.65)
-        self.track_area = Point(-20.00, -6.00, -12.50, 6.00)
-        self.track_area_2 = Point(-13.50, 4.50, -7.00, 6.00)
+        self.rotary_stop_area = Point(12.1, 1.8, 12.8, 2.2)
+        self.obstacle_area_1 = Point(1.72, 4.0, 6.73, 5.72)
+        self.obstacle_area_2 = Point(-12.90, -5.74, -5.55, -4.65)
+        self.track_area = Point(-20.00, -6.00, -13.00, 6.00)
+        self.track_area_2 = Point(-13.00, 4.50, -7.00, 6.00)
 
 
 
@@ -82,6 +82,7 @@ class wecar_planner():
         self.rt_obstacle_y = 0
         self.rt_obstacle_dis = 0
         self.is_rotary_stopped = False
+        self.is_rotary_entered = False
 
 
         # Dynamic & Static Obstacle Mission Parameter
@@ -119,8 +120,8 @@ class wecar_planner():
         #  0 1 2 -> 총 3개의 lattice 중 가운데 lattice == 1
         lattice_current_lane = 1
         while not rospy.is_shutdown():
+            
             if self.is_status==True: ## WeBot 상태, 장애물 상태 점검
-
                 ################################ SECOND MAP CHANGE ################################
                 # Path 교체
                 # if self.isTimetoChangePath():
@@ -142,8 +143,8 @@ class wecar_planner():
                     if self.isMissionArea(self.rotary_area.x1, self.rotary_area.y1, self.rotary_area.x2, self.rotary_area.y2):
                         local_path = lattice_path[1]
                     
-                    elif (self.isMissionArea(self.dynamic_obs_area.x1, self.dynamic_obs_area.y1, self.dynamic_obs_area.x2, self.dynamic_obs_area.y2) or 
-                    self.isMissionArea(self.static_obs_area.x1, self.static_obs_area.y1, self.static_obs_area.x2, self.static_obs_area.y2)):
+                    elif (self.isMissionArea(self.obstacle_area_1.x1, self.obstacle_area_1.y1, self.obstacle_area_1.x2, self.obstacle_area_1.y2) or 
+                    self.isMissionArea(self.obstacle_area_2.x1, self.obstacle_area_2.y1, self.obstacle_area_2.x2, self.obstacle_area_2.y2)):
                         local_path = lattice_path[self.current_lane]
 
                     else:
@@ -182,9 +183,9 @@ class wecar_planner():
 
                 servo_degree = abs(self.servo_msg - 0.5)
                 if servo_degree > 0.2:
-                    self.motor_msg = 1200
+                    self.motor_msg = 1200 # 1200
                 elif servo_degree > 0.1:
-                    self.motor_msg = 1300
+                    self.motor_msg = 1300 # 1300
                 else: self.motor_msg = 2500 # 2500
 
                 
@@ -195,8 +196,8 @@ class wecar_planner():
                         self.local_path_pub.publish(local_path)
                         self.visualizeTargetPoint(self.target_x, self.target_y)
                         
-                        if self.track_motor_msg > 990:
-                            self.track_motor_msg = 990
+                        if self.track_motor_msg > 790:
+                            self.track_motor_msg = 790
                         self.motor_msg = self.track_motor_msg + 10
                         self.track_motor_msg = self.motor_msg
                         # print("TRACK SPEED: ", self.track_motor_msg)
@@ -229,23 +230,47 @@ class wecar_planner():
                         
                         rate.sleep()
                         continue
+
+                    # 브레이크 Flag 초기화    
+                    self.is_rotary_stopped = False
+                    self.finish_detection = False
+                    self.is_dynamic = False
+                    self.is_static = False
                 ################################################################ 트랙 구간 ################################################################
 
 
 
                 ######################################################### 동적 + 정적 장애물 구간 #########################################################
-                if (self.isMissionArea(self.dynamic_obs_area.x1, self.dynamic_obs_area.y1, self.dynamic_obs_area.x2, self.dynamic_obs_area.y2) or 
-                    self.isMissionArea(self.static_obs_area.x1, self.static_obs_area.y1, self.static_obs_area.x2, self.static_obs_area.y2)):
+                if (self.isMissionArea(self.obstacle_area_1.x1, self.obstacle_area_1.y1, self.obstacle_area_1.x2, self.obstacle_area_1.y2) or 
+                    self.isMissionArea(self.obstacle_area_2.x1, self.obstacle_area_2.y1, self.obstacle_area_2.x2, self.obstacle_area_2.y2)):
                     self.motor_msg = 800
-                    if 0.5 < self.obstacle_x < 1.0 and self.finish_detection == False :
+                    print("구간진입")
+                    print(self.finish_detection)
+                    print(self.obstacle_x)
+                    # print("구간 진입: ", self.finish_detection)
+                    # print("x: " , self.obstacle_x, "y: ", self.obstacle_y)
+                    if (0.5 < self.obstacle_x < 1.0) and self.finish_detection == False :
+                        # print("구간 진입")
+                        # print("x: " , self.obstacle_x, "y: ", self.obstacle_y)
+
+                        # 기존
                         self.publishMotorServoMsg(0, self.servo_msg)
                         self.obstacle_y_list.append(self.obstacle_y)
+
+
+                        # print(len(self.obstacle_y_list))
+                        if len(self.obstacle_y_list) >= 4 and self.finish_detection == False :
+                            if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.08 :
+                                self.obstacle_y_list.sort()
+                                self.finish_detection = True
+                                self.is_dynamic= True
+                                # print("동적 판단 끝")
                         # print("우선 멈춤")
                         if len(self.obstacle_y_list) == 400 and self.finish_detection == False :
                             self.finish_detection = True
                             self.obstacle_y_list.sort()
                             # print(self.obstacle_y_list)
-                            print(abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]))
+                            # print(abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]))
                             if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.08 :
                                 self.is_dynamic= True
                             elif (-0.15 <= self.obstacle_y_list[0] <= 0.15 and -0.15 <= self.obstacle_y_list[-1] <= 0.15):
@@ -253,16 +278,18 @@ class wecar_planner():
                         continue
 
                     if self.is_dynamic :
-                        if -0.25 < self.obstacle_y < 0.25 :
+                        if -0.5 < self.obstacle_y < 0.5 and not (self.obstacle_x == 0 and self.obstacle_y == 0):
                             self.publishMotorServoMsg(0, self.servo_msg)
                             self.obstacle_y_list = []
                             print("동적 멈춤")
                             continue
-                        else :
+                        elif self.obstacle_x == 0 and self.obstacle_y == 0:
                             self.is_dynamic = False
                             self.obstacle_y_list = []
+                            self.finish_detection = False
 
                     elif self.is_static:
+                        # print("정적")
                         if self.finish_detection == True : 
                             if self.current_lane == 1:
                                 self.current_lane = 0
@@ -285,9 +312,11 @@ class wecar_planner():
                     
 
                     ## 장애물을 지나갔다는 판단
-                    if self.obstacle_x < 0.5 :
+                    if self.obstacle_x < 0.5 and not (self.obstacle_x == 0 and self.obstacle_y == 0) :
                         self.finish_detection = False
                         self.obstacle_y_list = []
+                        self.is_dynamic = False
+                        self.is_static = False
                 ######################################################### 동적 + 정적 장애물 구간 #########################################################
 
 
@@ -301,6 +330,9 @@ class wecar_planner():
                     self.is_track_stopped = False
                     self.is_rotary_stopped = False
                     self.track_motor_msg = 100
+                    self.finish_detection = False
+                    self.is_dynamic = False
+                    self.is_static = False
                 ############################################################### 신호등 구간 ###############################################################
 
 
@@ -308,22 +340,30 @@ class wecar_planner():
                 ############################################################### 로터리 구간 ###############################################################         
                 if self.isMissionArea(self.rotary_area.x1, self.rotary_area.y1, self.rotary_area.x2, self.rotary_area.y2):
                     self.motor_msg = 1000
+                    self.finish_detection == False
                     if self.isMissionArea(self.rotary_stop_area.x1, self.rotary_stop_area.y1, self.rotary_stop_area.x2, self.rotary_stop_area.y2):
                         if not self.is_rotary_stopped:
                             for i in range(1000):
                                 self.publishMotorServoMsg(0, self.servo_msg)
                                 time.sleep(0.001)
-
                             self.is_rotary_stopped = True
 
-                    if (self.rt_obstacle_x != 0 or self.rt_obstacle_y != 0):
+                        if self.rt_obstacle_y != 0:
+                            self.publishMotorServoMsg(0, self.servo_msg)
+                            continue
+                        
+                        if self.rt_obstacle_y == 0:
+                            self.is_rotary_entered = True
+
+                    if (self.rt_obstacle_x != 0 or self.rt_obstacle_y != 0) and self.is_rotary_entered:
                         rt_dis = sqrt(self.rt_obstacle_x ** 2 + self.rt_obstacle_y ** 2)
-                        if (rt_dis < 1.0):
+                        if (rt_dis < 0.2):
+                            print(rt_dis)
                             self.motor_msg = self.motor_msg * 0.0
-                        elif (1.0 <= rt_dis < 1.2):
-                            self.motor_msg = self.motor_msg * 0.2
-                        elif (1.2 <= rt_dis < 1.4):
-                            self.motor_msg = self.motor_msg * 0.4
+                        elif (0.2 <= rt_dis < 0.8):
+                            self.motor_msg = self.motor_msg * 0.25
+                        elif (0.8 <= rt_dis < 1.2):
+                            self.motor_msg = self.motor_msg * 0.45
                 ############################################################### 로터리 구간 ###############################################################
 
 

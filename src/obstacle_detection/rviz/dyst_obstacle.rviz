@@ -86,7 +86,9 @@ Visualization Manager:
       Marker Topic: /dyst_obs_marker
       Name: MarkerArray
       Namespaces:
-        {}
+        "\x01": true
+        "\x02": true
+        "\x03": true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -117,6 +119,13 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+    - Class: rviz/Axes
+      Enabled: true
+      Length: 1
+      Name: Axes
+      Radius: 0.10000000149011612
+      Reference Frame: <Fixed Frame>
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -182,4 +191,4 @@ Window Geometry:
     collapsed: false
   Width: 1267
   X: 1973
-  Y: 286
+  Y: 275

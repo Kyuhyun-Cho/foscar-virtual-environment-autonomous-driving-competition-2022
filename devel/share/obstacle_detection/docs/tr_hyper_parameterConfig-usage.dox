@@ -5,8 +5,8 @@
   <param name="epsilon" type="double" value="0.1" />
   <param name="minClusterSize" type="int" value="2" />
   <param name="maxClusterSize" type="int" value="50" />
-  <param name="xMinROI" type="double" value="0.0" />
-  <param name="xMaxROI" type="double" value="1.5" />
+  <param name="xMinROI" type="double" value="0.2" />
+  <param name="xMaxROI" type="double" value="1.8" />
   <param name="yMinROI" type="double" value="-1.0" />
   <param name="yMaxROI" type="double" value="1.0" />
   <param name="zMinROI" type="double" value="-1.0" />

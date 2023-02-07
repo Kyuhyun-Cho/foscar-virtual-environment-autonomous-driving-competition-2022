@@ -411,11 +411,11 @@ double zMaxRubberCone;
     {
 wp_hyper_parameterConfig::GroupDescription<wp_hyper_parameterConfig::DEFAULT, wp_hyper_parameterConfig> Default("Default", "", 0, 0, true, &wp_hyper_parameterConfig::groups);
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __min__.xMinRubberCone = 0.0;
+      __min__.xMinRubberCone = -1.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.xMinRubberCone = 10.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __default__.xMinRubberCone = 0.0;
+      __default__.xMinRubberCone = -1.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(wp_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new wp_hyper_parameterConfig::ParamDescription<double>("xMinRubberCone", "double", 0, "xMinRubberCone", "", &wp_hyper_parameterConfig::xMinRubberCone)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
@@ -431,11 +431,11 @@ wp_hyper_parameterConfig::GroupDescription<wp_hyper_parameterConfig::DEFAULT, wp
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __param_descriptions__.push_back(wp_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new wp_hyper_parameterConfig::ParamDescription<double>("xMaxRubberCone", "double", 0, "xMaxRubberCone", "", &wp_hyper_parameterConfig::xMaxRubberCone)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __min__.yMinRubberCone = 0.0;
+      __min__.yMinRubberCone = -1.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       __max__.yMinRubberCone = 10.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
-      __default__.yMinRubberCone = 0.0;
+      __default__.yMinRubberCone = -1.0;
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"
       Default.abstract_parameters.push_back(wp_hyper_parameterConfig::AbstractParamDescriptionConstPtr(new wp_hyper_parameterConfig::ParamDescription<double>("yMinRubberCone", "double", 0, "yMinRubberCone", "", &wp_hyper_parameterConfig::yMinRubberCone)));
 //#line 291 "/opt/ros/melodic/lib/python2.7/dist-packages/dynamic_reconfigure/parameter_generator_catkin.py"

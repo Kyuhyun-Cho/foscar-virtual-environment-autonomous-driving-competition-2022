@@ -37,7 +37,7 @@ class drawing_path():
             track_path.header.frame_id='velodyne'
             is_track_path = False
 
-            if len(self.x_poses) > 1 and len(self.y_poses) > 1:
+            if len(self.x_poses) > 2 and len(self.y_poses) > 2:
                 is_track_path = True
                 try:
                     output = np.polyfit(self.x_poses, self.y_poses, 2)

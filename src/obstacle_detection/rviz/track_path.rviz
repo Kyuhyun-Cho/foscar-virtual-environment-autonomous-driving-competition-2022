@@ -10,6 +10,8 @@ Panels:
         - /LaserScan1
         - /Axes1
         - /PointCloud21
+        - /MarkerArray3
+        - /Marker1
       Splitter Ratio: 0.5
     Tree Height: 813
   - Class: rviz/Selection
@@ -84,7 +86,7 @@ Visualization Manager:
       Marker Topic: /cone_marker
       Name: MarkerArray
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -92,7 +94,7 @@ Visualization Manager:
       Marker Topic: /waypoint_marker
       Name: MarkerArray
       Namespaces:
-        {}
+        "": true
       Queue Size: 100
       Value: true
     - Alpha: 1
@@ -159,13 +161,13 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz/MarkerArray
-      Enabled: true
+      Enabled: false
       Marker Topic: /pivot_marker
       Name: MarkerArray
       Namespaces:
-        "": true
+        {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Class: rviz/Marker
       Enabled: true
       Marker Topic: /target_waypoint
@@ -202,16 +204,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.672359943389893
+      Distance: 4.517969131469727
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.45492395758628845
-        Y: 0.06288569420576096
-        Z: -0.24686239659786224
+        X: 0.33544600009918213
+        Y: 0.01019761711359024
+        Z: -0.246982604265213
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -238,5 +240,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1652
-  X: 1854
-  Y: 194
+  X: 2929
+  Y: 478
