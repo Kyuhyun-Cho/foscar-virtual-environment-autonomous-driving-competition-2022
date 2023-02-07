@@ -9,7 +9,7 @@ Reads and maintains the following parameters on the ROS server
 - \b "~xMinROI" : \b [double] xMinROI min: -30.0, default: 0.2, max: 1.0
 - \b "~xMaxROI" : \b [double] xMaxROI min: 1.0, default: 1.8, max: 30.0
 - \b "~yMinROI" : \b [double] yMinROI min: -30.0, default: -1.0, max: 0.0
-- \b "~yMaxROI" : \b [double] yMaxROI min: 0.0, default: 1.0, max: 30.0
+- \b "~yMaxROI" : \b [double] yMaxROI min: 0.0, default: 1.3, max: 30.0
 - \b "~zMinROI" : \b [double] zMinROI min: -2.0, default: -1.0, max: 0.0
 - \b "~zMaxROI" : \b [double] zMaxROI min: 0.0, default: 1.0, max: 2.0
 - \b "~xMinBoundingBox" : \b [double] xMinBoundingBox min: -1.0, default: -1.0, max: 1.0

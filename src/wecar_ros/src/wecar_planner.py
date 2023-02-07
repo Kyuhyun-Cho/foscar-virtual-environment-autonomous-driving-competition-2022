@@ -257,7 +257,6 @@ class wecar_planner():
                         self.publishMotorServoMsg(0, self.servo_msg)
                         self.obstacle_y_list.append(self.obstacle_y)
 
-
                         # print(len(self.obstacle_y_list))
                         if len(self.obstacle_y_list) >= 4 and self.finish_detection == False :
                             if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.08 :
