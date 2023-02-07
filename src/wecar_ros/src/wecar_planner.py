@@ -122,12 +122,6 @@ class wecar_planner():
         while not rospy.is_shutdown():
             
             if self.is_status==True: ## WeBot 상태, 장애물 상태 점검
-                ################################ SECOND MAP CHANGE ################################
-                # Path 교체
-                # if self.isTimetoChangePath():
-                #     self.path_name = "second"
-                #     self.global_path=path_reader.read_txt(self.path_name+".txt")
-                ################################ SECOND MAP CHANGE ################################
 
                 ## global_path와 WeBot status_msg를 이용해 현재 waypoint와 local_path를 생성
                 local_path,self.current_waypoint=findLocalPath(self.global_path,self.status_msg) 
@@ -167,19 +161,6 @@ class wecar_planner():
                 # range : 0.0 ~ 1.0 (straight 0.5)
                 self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset # 조향값
 
-                # 속도 값 확인 : rostopic echo /sensors/core -> state -> speed
-                # range : 0 ~ 2260.15e6
-                # 실제 대입값과 차이 있음
-                # command   topic
-                # 500       450
-                # 1000      878
-                # 2000      1858
-                # 3000      2231
-                # 3500      2255
-                # print("-------------------------------------------------")
-                # print(abs(self.servo_msg - 0.5))
-                # print("-------------------------------------------------")
-                # self.motor_msg = self.cc_vel *self.rpm_gain /3.6 # 속도값
 
                 servo_degree = abs(self.servo_msg - 0.5)
                 if servo_degree > 0.2:
@@ -200,7 +181,6 @@ class wecar_planner():
                             self.track_motor_msg = 790
                         self.motor_msg = self.track_motor_msg + 10
                         self.track_motor_msg = self.motor_msg
-                        # print("TRACK SPEED: ", self.track_motor_msg)
 
 
                         pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
@@ -209,23 +189,9 @@ class wecar_planner():
                         self.steering, self.target_x, self.target_y = pure_pursuit.steering_angle()
                         self.servo_msg = self.steering * 0.021 + self.steering_angle_to_servo_offset
                         
-                        # if not self.is_track_stopped:
-                        #     for i in range(1000):
-                        #         self.local_path_pub.publish(local_path)
-                        #         self.visualizeTargetPoint(self.target_x, self.target_y)
-                        #         self.publishMotorServoMsg(0, self.servo_msg)
-                        #         time.sleep(0.001)
-                            
-                        #     self.is_track_stopped = True
-                        #     continue
-                        
-                        # if self.target_x == 0 and self.target_y == 0:
-                        #     self.publishMotorServoMsg(0, self.servo_msg)
-                        # else:
 
                         self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
 
-                        # self.local_path_pub.publish(local_path)
                         self.visualizeTargetPoint(self.target_x, self.target_y)
                         
                         rate.sleep()
@@ -244,32 +210,21 @@ class wecar_planner():
                 if (self.isMissionArea(self.obstacle_area_1.x1, self.obstacle_area_1.y1, self.obstacle_area_1.x2, self.obstacle_area_1.y2) or 
                     self.isMissionArea(self.obstacle_area_2.x1, self.obstacle_area_2.y1, self.obstacle_area_2.x2, self.obstacle_area_2.y2)):
                     self.motor_msg = 800
-                    print("구간진입")
-                    print(self.finish_detection)
-                    print(self.obstacle_x)
-                    # print("구간 진입: ", self.finish_detection)
-                    # print("x: " , self.obstacle_x, "y: ", self.obstacle_y)
+                
                     if (0.5 < self.obstacle_x < 1.0) and self.finish_detection == False :
-                        # print("구간 진입")
-                        # print("x: " , self.obstacle_x, "y: ", self.obstacle_y)
-
-                        # 기존
                         self.publishMotorServoMsg(0, self.servo_msg)
                         self.obstacle_y_list.append(self.obstacle_y)
 
-                        # print(len(self.obstacle_y_list))
                         if len(self.obstacle_y_list) >= 4 and self.finish_detection == False :
                             if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.08 :
                                 self.obstacle_y_list.sort()
                                 self.finish_detection = True
                                 self.is_dynamic= True
-                                # print("동적 판단 끝")
-                        # print("우선 멈춤")
+                                
                         if len(self.obstacle_y_list) == 400 and self.finish_detection == False :
                             self.finish_detection = True
                             self.obstacle_y_list.sort()
-                            # print(self.obstacle_y_list)
-                            # print(abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]))
+                
                             if abs(self.obstacle_y_list[3] - self.obstacle_y_list[-3]) > 0.08 :
                                 self.is_dynamic= True
                             elif (-0.15 <= self.obstacle_y_list[0] <= 0.15 and -0.15 <= self.obstacle_y_list[-1] <= 0.15):
@@ -280,7 +235,6 @@ class wecar_planner():
                         if -0.5 < self.obstacle_y < 0.5 and not (self.obstacle_x == 0 and self.obstacle_y == 0):
                             self.publishMotorServoMsg(0, self.servo_msg)
                             self.obstacle_y_list = []
-                            print("동적 멈춤")
                             continue
                         elif self.obstacle_x == 0 and self.obstacle_y == 0:
                             self.is_dynamic = False
@@ -288,7 +242,6 @@ class wecar_planner():
                             self.finish_detection = False
 
                     elif self.is_static:
-                        # print("정적")
                         if self.finish_detection == True : 
                             if self.current_lane == 1:
                                 self.current_lane = 0
@@ -297,14 +250,7 @@ class wecar_planner():
                             elif self.current_lane == 0:
                                 self.current_lane = 1
                                 local_path = lattice_path[self.current_lane]
-                            # print(abs(self.status_msg.position.y - lattice_path[self.current_lane].poses[-1].pose.position.y))
-                            # while( abs(self.status_msg.position.y - lattice_path[self.current_lane].poses[-1].pose.position.y) > 0.39):
-                            #     pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
-                            #     pure_pursuit.getEgoStatus(self.status_msg) ## pure_pursuit 알고리즘에 WeBot status 적용
-                            #     self.steering=pure_pursuit.steering_angle()
-                            #     self.servo_msg = self.steering*0.021 + self.steering_angle_to_servo_offset
-                            #     self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
-                            #     print("정적 경로변경중")
+                    
                             self.is_static = False
                             self.obstacle_y_list = []
                             continue
@@ -357,7 +303,6 @@ class wecar_planner():
                     if (self.rt_obstacle_x != 0 or self.rt_obstacle_y != 0) and self.is_rotary_entered:
                         rt_dis = sqrt(self.rt_obstacle_x ** 2 + self.rt_obstacle_y ** 2)
                         if (rt_dis < 0.2):
-                            print(rt_dis)
                             self.motor_msg = self.motor_msg * 0.0
                         elif (0.2 <= rt_dis < 0.8):
                             self.motor_msg = self.motor_msg * 0.25
@@ -371,7 +316,7 @@ class wecar_planner():
                 self.local_path_pub.publish(local_path)
                 self.visualizeTargetPoint(self.target_x, self.target_y)
                 self.publishMotorServoMsg(self.motor_msg, self.servo_msg)
-                # self.print_info()
+                
             
             # global path 출력
             if count==300 : 
@@ -380,22 +325,6 @@ class wecar_planner():
             count+=1
             
             rate.sleep()
-
-
-    def print_info(self):
-
-        os.system('clear')
-        print('--------------------status-------------------------')
-        print('position :{0} ,{1}, {2}'.format(self.status_msg.position.x,self.status_msg.position.y,self.status_msg.position.z))
-        print('velocity :{} km/h'.format(self.status_msg.velocity.x))
-        print('heading :{} deg'.format(self.status_msg.heading))
-
-        print('--------------------controller-------------------------')
-        print('target steering_angle :{} deg'.format(self.steering))
-
-        print('--------------------localization-------------------------')
-        print('all waypoint size: {} '.format(len(self.global_path.poses)))
-        print('current waypoint : {} '.format(self.current_waypoint))
 
 
     def statusCB(self,data): ## Vehicle Status Subscriber 
@@ -407,24 +336,6 @@ class wecar_planner():
                         "gps",
                         "map")
         self.is_status=True
-
-
-    # def calcDistance(self, x, y):
-    #     dx = self.status_msg.position.x - x
-    #     dy = self.status_msg.position.y - y
-    #     distance = sqrt(dx ** 2 + dy ** 2)
-
-    #     return distance
-
-            
-    # def isTimetoChangePath(self):
-    #     second_map_x = 0.527515172958
-    #     second_map_y = -5.40659809113
-    #     dis = self.calcDistance(second_map_x, second_map_y)
-
-    #     if dis < 0.3:
-    #         return True
-
 
     def isMissionArea(self, x1, y1, x2, y2):
         if (x1 <= self.status_msg.position.x <= x2) and (y1 <= self.status_msg.position.y <= y2):
@@ -472,7 +383,6 @@ class wecar_planner():
 
 
     def visualizeTargetPoint(self, x, y):
-        # print(x, y)
         target_waypoint = Marker()
         target_waypoint.header.frame_id = "/velodyne"
         target_waypoint.id = 1001
