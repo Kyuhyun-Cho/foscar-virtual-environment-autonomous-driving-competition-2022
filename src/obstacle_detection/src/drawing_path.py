@@ -72,8 +72,8 @@ class drawing_path():
         # self.x_poses = list(msg.x_arr)[0:1]
         # self.y_poses = list(msg.y_arr)[0:1]
 
-        self.x_poses.insert(0, -0.05)
-        self.y_poses.insert(0, 0)
+        # self.x_poses.insert(0, -0.05)
+        # self.y_poses.insert(0, 0)
 
         self.cnt = msg.cnt
 

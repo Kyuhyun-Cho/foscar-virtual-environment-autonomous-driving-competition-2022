@@ -6,10 +6,10 @@ import rospy
 from nav_msgs.msg import Path
 from std_msgs.msg import Float64, Bool
 from geometry_msgs.msg import Point
-from visualization_msgs.msg import Marker
+from visualization_msgs.msg import Marker, MarkerArray
 
 from morai_msgs.msg import EgoVehicleStatus, GetTrafficLightStatus
-from lib.utils import pathReader,findLocalPath,purePursuit,latticePlanner
+from utils import pathReader,findLocalPath,purePursuit,latticePlanner
 from obstacle_detection.msg import Boundingbox
 import tf
 import time
@@ -50,6 +50,7 @@ class wecar_planner():
 
         rospy.Subscriber("/is_track_path", Bool, self.isTrackPathCB)
         rospy.Subscriber("/track_path", Path, self.trackPathCB)
+        rospy.Subscriber("/pivot_marker", MarkerArray, self.pivotCB)
    
 
         self.is_status=False ## WeBot 상태 점검
@@ -101,8 +102,10 @@ class wecar_planner():
         # Track Mission Paraemter
         self.is_track_path = False
         self.track_path = Path()
-        self.is_track_stopped = False
         self.track_motor_msg = 0
+        self.first_pivot = 0
+        self.second_pivot = 0
+        self.is_pivot_around = False
 
         # Class
         path_reader=pathReader('wecar_ros') ## 경로 파일의 위치
@@ -172,16 +175,33 @@ class wecar_planner():
                 
                 ################################################################ 트랙 구간 ################################################################
                 if self.isMissionArea(self.track_area.x1, self.track_area.y1, self.track_area.x2, self.track_area.y2) or self.isMissionArea(self.track_area_2.x1, self.track_area_2.y1, self.track_area_2.x2, self.track_area_2.y2):
-                    if self.is_track_path:  
+                    if self.is_track_path:
+                        if not self.is_pivot_around:
+                            pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
+                            pure_pursuit.getEgoStatus(self.status_msg, False) ## pure_pursuit 알고리즘에 WeBot status 적용
+
+                            self.steering, self.target_x, self.target_y = pure_pursuit.steering_angle()
+                            self.servo_msg = self.steering * 0.021 + self.steering_angle_to_servo_offset
+                                
+                            self.publishMotorServoMsg(800, self.servo_msg)
+                            continue
+    
+                
+                        self.publishMotorServoMsg(self.track_motor_msg, self.servo_msg)
+        
                         local_path = self.track_path
                         self.local_path_pub.publish(local_path)
                         self.visualizeTargetPoint(self.target_x, self.target_y)
                         
                         if self.track_motor_msg > 790:
                             self.track_motor_msg = 790
-                        self.motor_msg = self.track_motor_msg + 10
-                        self.track_motor_msg = self.motor_msg
+                        
+                        if 0 <= self.track_motor_msg < 297: 
+                            self.motor_msg = self.track_motor_msg + 3
+                        elif 297 <= self.track_motor_msg <= 790:
+                            self.motor_msg = self.track_motor_msg + 10
 
+                        self.track_motor_msg = self.motor_msg
 
                         pure_pursuit.getPath(local_path) ## pure_pursuit 알고리즘에 Local path 적용
                         pure_pursuit.getEgoStatus(self.status_msg, self.is_track_path) ## pure_pursuit 알고리즘에 WeBot status 적용
@@ -272,9 +292,8 @@ class wecar_planner():
                         self.motor_msg = 0
 
                     # 브레이크 Flag 초기화    
-                    self.is_track_stopped = False
                     self.is_rotary_stopped = False
-                    self.track_motor_msg = 100
+                    self.track_motor_msg = 0
                     self.finish_detection = False
                     self.is_dynamic = False
                     self.is_static = False
@@ -375,6 +394,17 @@ class wecar_planner():
 
     def trackPathCB(self, data):
         self.track_path = data 
+
+    def pivotCB(self, data):
+        self.first_pivot = data.markers[0].pose.position.x
+        self.second_pivot = data.markers[1].pose.position.x
+
+        if (self.first_pivot != 0) and (self.second_pivot != 0):
+            self.is_pivot_around = True
+        else:
+            self.is_pivot_around = False
+
+        # print(self.is_pivot_around_stopped)
 
 
     def publishMotorServoMsg(self, motor_msg, servo_msg):

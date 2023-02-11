@@ -172,10 +172,10 @@ class WaypointMaker{
          */
         
         leftPivot.centerX = 0.0;
-        leftPivot.centerY = 0.3;
+        leftPivot.centerY = 0.6;
         leftPivot.centerZ = 0.0;
         rightPivot.centerX = 0.0;
-        rightPivot.centerY = -0.3;
+        rightPivot.centerY = -0.2;
         rightPivot.centerZ = 0.0;
 
         mainSub = nh.subscribe("/tr_obs_position", 1, &WaypointMaker::mainCallback, this);
@@ -223,10 +223,10 @@ void WaypointMaker::egoCallback(morai_msgs::EgoVehicleStatus data) {
 
     if ( (pivot_reset_area[0] <= pos_x && pos_x <= pivot_reset_area[2]) && (pivot_reset_area[1] <= pos_y && pos_y <= pivot_reset_area[3]) ) {
         this->leftPivot.centerX = 0.0;
-        this->leftPivot.centerY = 0.3;
+        this->leftPivot.centerY = 0.6;
         this->leftPivot.centerZ = 0.0;
         this->rightPivot.centerX = 0.0;
-        this->rightPivot.centerY = -0.3;
+        this->rightPivot.centerY = -0.2;
         this->rightPivot.centerZ = 0.0;
     }
 }
@@ -279,30 +279,24 @@ void WaypointMaker::setLeftRightConeInfo() {
     double yDeltaMax = (leftPivot.centerY - rightPivot.centerY) * 0.4;
 
     for (int i = 0; i < objects.size; i++) {
-        isLeft = false;
-        isRight = false;
         cone = &(objects.objectArray[i]);
 
-        if (abs(leftPivot.centerY - cone->centerY) < yDeltaMax)
+        // 거리기준 왼오구분
+        isLeft = false;
+        isRight = false;
+        double leftPivotToConeDistance = getDistanceObjectToObject(leftPivot, *cone);
+        double rightPivotToConeDistance = getDistanceObjectToObject(rightPivot, *cone);
+        if (leftPivotToConeDistance < rightPivotToConeDistance) {
             isLeft = true;
-        if (abs(rightPivot.centerY - cone->centerY) < yDeltaMax)
+        } 
+        else if (leftPivotToConeDistance > rightPivotToConeDistance) {
             isRight = true;
-
-        if ((isLeft && isRight) || (!isLeft && !isRight)) {
-            // 거리기준 왼오구분
-            isLeft = false;
-            isRight = false;
-            double leftPivotToConeDistance = getDistanceObjectToObject(leftPivot, *cone);
-            double rightPivotToConeDistance = getDistanceObjectToObject(rightPivot, *cone);
-            if (leftPivotToConeDistance < rightPivotToConeDistance) {
-                isLeft = true;
-            } else if (leftPivotToConeDistance > rightPivotToConeDistance) {
-                isRight = true;
-            } else {
-                isLeft = true;
-                cout << "Distance Same ERROR\n";
-            }
+        } 
+        else {
+            isLeft = true;
+            cout << "Distance Same ERROR\n";
         }
+    
         
         if (isLeft) {
             // leftConeArray에 넣고 피봇 변경
@@ -329,10 +323,12 @@ void WaypointMaker::setWaypointInfo() {
     double xDelta = abs(rightPivot.centerX - leftPivot.centerX) / 2;
     if (leftCones.size > rightCones.size) {
         waypointInfoMsg.cnt = leftCones.size;
-
+        // if (waypointInfoMsg.cnt > 6) {
+        //     waypointInfoMsg.cnt = 6;
+        // }
         waypointInfoMsg.x_arr[0] = (leftPivot.centerX + rightPivot.centerX) / 2;
         waypointInfoMsg.y_arr[0] = (leftPivot.centerY + rightPivot.centerY) / 2;
-        for (int i = 1; i < leftCones.size; i++) {
+        for (int i = 1; i < waypointInfoMsg.cnt; i++) {
             if (i < rightCones.size) {
                 waypointInfoMsg.x_arr[i] = (leftCones.cone[i]->centerX + rightCones.cone[i]->centerX) / 2;
                 waypointInfoMsg.y_arr[i] = (leftCones.cone[i]->centerY + rightCones.cone[i]->centerY) / 2;
@@ -348,10 +344,12 @@ void WaypointMaker::setWaypointInfo() {
         }
     } else {
         waypointInfoMsg.cnt = rightCones.size;
-
+        // if (waypointInfoMsg.cnt > 6) {
+        //     waypointInfoMsg.cnt = 6;
+        // }
         waypointInfoMsg.x_arr[0] = (leftPivot.centerX + rightPivot.centerX) / 2;
         waypointInfoMsg.y_arr[0] = (leftPivot.centerY + rightPivot.centerY) / 2;
-        for (int i = 1; i < rightCones.size; i++) {
+        for (int i = 1; i < waypointInfoMsg.cnt; i++) {
             if (i < leftCones.size) {
                 waypointInfoMsg.x_arr[i] = (leftCones.cone[i]->centerX + rightCones.cone[i]->centerX) / 2;
                 waypointInfoMsg.y_arr[i] = (leftCones.cone[i]->centerY + rightCones.cone[i]->centerY) / 2;
