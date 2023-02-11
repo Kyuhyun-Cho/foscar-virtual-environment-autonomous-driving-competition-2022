@@ -67,10 +67,10 @@ class wecar_planner():
         self.traffic_area = Point(6.85, -2.5, 7.5, -1.95)
         self.rotary_area = Point(10.0, -2.7, 15.57, 3.5)
         self.rotary_stop_area = Point(12.1, 1.8, 12.8, 2.2)
-        self.obstacle_area_1 = Point(1.72, 4.0, 6.73, 5.72)
+        self.obstacle_area_1 = Point(1.72, 4.0, 6.73, 6.00)
         self.obstacle_area_2 = Point(-12.90, -5.74, -5.55, -4.65)
         self.track_area = Point(-20.00, -6.00, -13.00, 6.00)
-        self.track_area_2 = Point(-13.00, 4.50, -7.00, 6.00)
+        self.track_area_2 = Point(-13.00, -3.00, -7.00, 6.00)
 
 
 
