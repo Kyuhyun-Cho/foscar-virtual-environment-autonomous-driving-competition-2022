@@ -28,7 +28,3 @@
 - 로터리 미션
 
 - 신호등
-
-## 실행 코드
-
-전체 실행 : `roslaunch wecar_ros wecar_planner.launch`
